@@ -1,0 +1,96 @@
+{
+	"1" : {
+		"grid": 1,
+		"thumbnail": "dummy-slandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 1",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	},
+	"2" : {
+		"grid": 1,
+		"thumbnail": "dummy-slandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 2",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	},
+	"3" : {
+		"grid": 2,
+		"thumbnail": "dummy-blandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 3",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	},
+	"4" : {
+		"grid": 2,
+		"thumbnail": "dummy-blandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 4",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"category": "advert"
+	},
+	"5" : {
+		"grid": 3
+	},
+	"6" : {
+		"grid": 3,
+		"thumbnail": "dummy-portrait.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 5",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "film"
+	},
+	"7" : {
+		"grid": 3,
+		"thumbnail": "dummy-portrait.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 6",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "film"
+	},
+	"8" : {
+		"grid": 1,
+		"thumbnail": "dummy-slandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 7",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	},
+	"9" : {
+		"grid": 2,
+		"thumbnail": "dummy-blandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 8",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "other"
+	},
+	"10" : {
+		"grid": 3,
+		"thumbnail": "dummy-portrait.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 9",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	},
+	"11" : {
+		"grid": 1,
+		"thumbnail": "dummy-slandscape.jpg",
+		"mobileThumbnail": "dummy-blandscape.jpg",
+		"title": "Dummy 10",
+		"caption": "Barry the Biscuit Boy<br />Agency: Wieden &amp; Kennedy",
+		"video": "showreel.mp4",
+		"category": "advert"
+	}
+}

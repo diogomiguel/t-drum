@@ -1,0 +1,102 @@
+/**
+ * All styles related to markup inside the client section
+ */
+.client-transitions-container{
+	background-color: $blue-color;
+	z-index: 0;
+	position: relative;
+	div{
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+}
+.client-transition-slide1{
+	background-image:url($images-path + 'clients-bg.jpg');
+	z-index:3;
+	width: 100%;
+	height: 100%;
+	top: 0%; 
+	left: 0%;
+}
+.client-transition-slide2{
+	background-image:url($images-path + 'clients2-bg.jpg');
+	z-index:2;
+	width: 100%;
+	height: 100%;
+	top: 0%; 
+	left: 0%;
+}
+ .client{
+ 	min-height: em(1000px);
+	position: relative;
+	background-color: $blue-color;
+	height:100%
+ }
+ .client__form{
+ 	padding: em(384px) 0 em(440px);
+ 	margin: 0 auto;
+ 	width: em(458px);
+
+ 	legend{
+ 		margin-bottom: em(16px, 50px);
+ 	}
+ 	fieldset{
+ 		margin-bottom: em(16px);
+ 		padding: em(6px) em(16px);
+ 		@include border-radius(4px);
+ 		background-color: $white-color;
+ 	}
+ 	ol{
+ 		
+ 		margin: 0;
+ 		padding: 0;
+ 	}
+ 	li{
+ 		width:100%;
+ 		clear:both;
+ 		list-style: none;
+ 		height: em(36px - 8px);
+ 		padding-top: em(8px);
+ 	}
+ 	label{
+ 		width: em(70px);
+ 		display: inline-block;
+ 		padding-top: em(2px);
+ 	}
+ 	input{
+ 		padding:0 0 0 em(12px);
+ 		width: em(426px - 72px - 16px);
+ 		display: inline-block;
+ 		background: $white-color;
+ 		border: 0 none;
+ 	}
+ 	a{
+ 		display: block;
+ 	}
+ }
+.client__form__button{
+	@include background-image(linear-gradient(#555555, #555555 50%, #4d4c4c 50%, #4d4c4c));
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	@include border-radius(4px);
+	height: em(34px);
+	text-align: center;
+	border: 1px solid #555555;
+}
+.client__form__email__row{
+	border-bottom: 1px solid $grey-color;
+}
+
+.footer{
+	margin-top: em(-62px);
+	@include opacity(0.5);
+	position: relative;
+	z-index: 7;
+}

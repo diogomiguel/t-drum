@@ -1,0 +1,34 @@
+/**
+ * All styles related to markup inside the what we do section
+ */
+ .whatwedo{
+ 	min-height: em(1145px);
+ 	background: url($images-path + 'whatwedo-bg.jpg') no-repeat;
+ 	background-size: cover;
+ 	z-index: 4;
+ 	top: 0;
+ 	left: 0;
+ 	h2{
+ 		position: absolute;
+ 		width:100%;
+ 		text-align: center;
+ 		z-index: 1;
+ 		top: em(384px, 100px);
+ 	}
+ }
+ .whatwedo__container{
+ 	position: relative;
+ 	width:100%;
+ 	height:100%;
+ 	z-index: 1;
+ }
+ .whatwedo__content{
+ 	position:absolute;
+ 	width: em(552px);
+ 	top: em(574px);
+ 	left: 50%;
+ 	width: 40%;
+ }
+ .whatwedo__content__main{
+ 	padding-bottom: em(40px, 34px);
+ }

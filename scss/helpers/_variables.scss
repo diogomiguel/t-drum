@@ -1,0 +1,34 @@
+/**
+ * Variables to be used throughout the project
+ */
+
+// Fonts
+$font-pistilli: 'pistilliregular', Helvetica, Arial, sans-serif;
+$font-rotis: 'RotisSerifStd55Regular', 'Myriad Pro', Helvetica, Arial, sans-serif;
+$font-rotis-italic: 'RotisSerifStd56Italic', 'Myriad Pro', Helvetica, Arial, sans-serif;
+$font-rotis-bold: 'RotisSerifStd65Bold', 'Myriad Pro', Helvetica, Arial, sans-serif;
+
+$base-font-size: 16px;
+
+// <hr> color
+$hr-color: #ccc;
+
+// Text selection background color
+$selection-color: #b3d4fc;
+
+// Text Color
+$main-color: #000000;
+$white-color: #FFFFFF;
+$blue-color: #16202f;
+$grey-color: #e1e1e1;
+$red-color: #ff0000;
+$grey-light-color: #7C7C7C;
+
+// Miscs
+$images-path: '../dist/img/';
+
+
+@function em($target, $context: $base-font-size) {
+	@if $target == 0 { @return 0 }
+	@return $target / $context + 0em;
+}

@@ -1,0 +1,57 @@
+/**
+ * An example module: Rocks
+ *
+ * @author Diogo Silva
+ * @date 28.05.2014
+ */
+
+/*
+ * General styling
+ */
+.whatwedo__meteor{
+	position: fixed;
+	display: none;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 5;
+}
+.whatwedo__meteor__rock, .whoweare__meteor__rock, .ourwork__meteor__rock{
+	position: absolute;
+}
+.whoweare__meteor__rock__1{
+	left:0;
+	z-index: 0;
+	position: absolute;
+}
+.rock__graphic--mobile{
+	display: none;
+}
+.ourwork__meteor__rock__1{
+	left: 0;
+	z-index:0;
+	top:117px;
+}
+.ourwork__meteor__rock__2{
+	left: 50%;
+	margin-left: -160px;
+	z-index:0;
+	top:60px;
+}
+.ourwork__meteor__rock__3{
+	right: 0;
+	z-index:0;
+	top:-10px;
+}
+.ourwork__meteors{
+	position:absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 0;
+	top:-300px;
+}
+.skrollable {
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateZ(0);
+}

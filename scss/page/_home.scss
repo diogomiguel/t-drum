@@ -1,0 +1,87 @@
+/**
+ * All styles related to markup inside the homepage section
+ */
+ .homepage{
+ 	min-height: em(1005px);
+ 	z-index: 1;
+ 	-webkit-transform:none!important;
+  	transform:none!important;
+ 	h1{
+ 		top: 50%;
+ 		left: 50%;
+ 		margin-left: -778px * 0.5;
+		margin-top: -427px * 0.5;
+		position: fixed;
+		z-index: 1;
+		width: 778px;
+		height: 427px;
+		overflow: hidden;
+		span{
+			position: absolute;
+			left: -9999px;
+		}
+ 	}
+ }
+
+ .homepage__video{
+ 	z-index: 0;
+ 	position: relative;
+ 	-webkit-transform:none!important;
+  	transform:none!important;
+ }
+ .homepage__video__button{
+ 	position: fixed;
+ 	top: 22px;
+ 	height: 22px;
+ 	z-index:1;
+ 	cursor: pointer;
+ 	background: url($images-path + 'audio-controls.png') no-repeat;
+ 	border: 0 none;
+ 	margin: 0;
+ 	padding: 0;
+
+ 	span{
+ 		display:none;
+ 	}
+ }
+ .homepage__video__play{
+	width: 20px;
+	background-position: 0 0;
+	right: 57px;
+ }
+  .homepage__video__play--paused{
+  	background-position: 0 bottom;
+  }
+ .homepage__video__audio{
+ 	width: 25px;
+ 	background-position: -22px 0;
+ 	right: 26px;
+ }
+ .homepage__video__audio--muted{
+	background-position: -22px bottom;
+ }
+ .homepage__video__player{
+ 	position: fixed;
+ 	right: 0;
+ 	bottom: 0;
+ 	min-width: 100%;
+ 	min-height: 100%;
+ 	width: auto;
+ 	height: auto;
+ 	z-index: -100;
+ 	background: url($images-path + 'video-bg.jpg');
+ 	background-size: cover;
+ }
+ .homepage__video__player[poster]{
+	min-width: 100%;
+ 	min-height: 100%;
+ }
+ .scrollmore{
+ 	width: 157px;
+ 	height: 45px;
+ 	position: fixed;
+ 	bottom: 68px;
+ 	left: 50%;
+ 	margin-left: -157px * 0.5;
+ 	z-index: 2;
+ }

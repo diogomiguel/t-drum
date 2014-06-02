@@ -1,0 +1,188 @@
+/**
+ * Typography is specified in here.
+ */
+@font-face {
+    font-family: 'pistilliregular';
+    src: url('../dist/fonts/pistilli-roman-webfont.eot');
+    src: url('../dist/fonts/pistilli-roman-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../dist/fonts/pistilli-roman-webfont.woff') format('woff'),
+         url('../dist/fonts/pistilli-roman-webfont.ttf') format('truetype'),
+         url('../dist/fonts/pistilli-roman-webfont.svg#pistilliregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'RotisSerifStd55Regular';
+    src: url('../dist/fonts/rotisserifstd.eot');
+    src: url('../dist/fonts/rotisserifstd.eot') format('embedded-opentype'),
+         url('../dist/fonts/rotisserifstd.woff') format('woff'),
+         url('../dist/fonts/rotisserifstd.ttf') format('truetype'),
+         url('../dist/fonts/rotisserifstd.svg#RotisSerifStd55Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RotisSerifStd65Bold';
+    src: url('../dist/fonts/rotisserifstd-bold.eot');
+    src: url('../dist/fonts/rotisserifstd-bold.eot') format('embedded-opentype'),
+         url('../dist/fonts/rotisserifstd-bold.woff') format('woff'),
+         url('../dist/fonts/rotisserifstd-bold.ttf') format('truetype'),
+         url('../dist/fonts/rotisserifstd-bold.svg#RotisSerifStd65Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RotisSerifStd56Italic';
+    src: url('../dist/fonts/rotisserifstd-italic.eot');
+    src: url('../dist/fonts/rotisserifstd-italic.eot') format('embedded-opentype'),
+         url('../dist/fonts/rotisserifstd-italic.woff') format('woff'),
+         url('../dist/fonts/rotisserifstd-italic.ttf') format('truetype'),
+         url('../dist/fonts/rotisserifstd-italic.svg#RotisSerifStd56Italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	font-family: $font-rotis;
+	font-size:$base-font-size;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: $font-pistilli;
+	line-height: 1em;
+	font-weight: normal;
+}
+h2{
+	font-size: em(100px);
+
+}
+h3, h4{
+	font-family: $font-rotis;
+}
+p{
+	font-family:$font-rotis;
+	font-size: em(24px);
+}
+strong{
+	font-family:$font-rotis-bold;
+}
+em, i{
+	font-family:$font-rotis-italic;
+}
+a{
+	text-decoration: underline;
+	color: $main-color;
+}
+
+.whatwedo__content__main{
+	font-size: em(34px);
+}
+
+.ourwork__filters li{
+	font-size: em(18px);
+	line-height: 1em;
+	letter-spacing: 0.3px;
+	a{
+		color: $main-color;
+		text-decoration: none;
+		&:hover, &.active{
+			font-family: $font-rotis-bold;
+			letter-spacing: 0;
+		}
+	}
+}
+.ourwork__search__btn{
+	font-size: em(18px);
+	line-height: 1em;
+}
+.ourwork__loadmore{
+ 	font-size: em(15px);
+ 	text-transform: uppercase;
+ 	font-family: $font-rotis-bold;
+}
+.ourwork__grid__item__rollover{
+	color: $white-color;
+	h3{
+		font-size: em(46px);
+	}
+	p{
+		font-size: em(16px);
+	}
+	a{
+		text-decoration: none;
+		color: $white-color;
+	}
+}
+.ourwork__grid__item--slandscape .ourwork__grid__item__rollover{
+	h3{
+		font-size: em(23px);
+	}
+	p{
+		font-size: em(12px);
+	}
+}
+.ourwork__grid__item__play{
+	font-size: em(14px);
+	text-transform: uppercase;
+	font-family: $font-rotis-bold;
+}
+.ourwork__search__input{
+	font-size: em(16px);
+}
+
+.whoweare__bio__person{
+ 	h3{
+ 		font-size: em(22px);
+		line-height: 1em;
+ 		span{
+ 			font-size: em(8px, 22px);
+ 			display: block;
+ 			line-height: 2em;
+ 		}
+ 	}
+
+ 	p{
+ 		font-size: em(14px);
+ 		line-height: 1.56em;
+ 	}
+ }
+
+ .client__form{
+	legend{
+		color: $white-color;
+		font-size: em(50px);
+		text-align: center;
+		font-family: $font-pistilli;
+	}
+	label, input{
+		font-size: em(16px);
+		font-family:$font-rotis;
+		line-height: 1em;
+	}
+	a{
+		color: $white-color;
+		margin-top:16px;
+		font-size: em(14px);
+		text-decoration: none;
+	}
+ }
+ .client__form__button{
+	font-size: em(17px);
+	color: $white-color;
+ }
+ .footer{
+ 	line-height: 1em;
+ 	font-size: em(13px);
+ 	color: $white-color;
+	text-align: center;
+ 	small{
+ 		line-height: 1em;
+ 		font-size: 1em;
+ 	}
+ }
