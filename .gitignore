@@ -3,6 +3,7 @@
 
 *.sass-cache
 *.sublime-*
+dandelion.yml
 
 components
 css

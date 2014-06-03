@@ -13,9 +13,13 @@ require([
 	'modules/scrolling',
 	'modules/mediaqueries',
 	'modules/rocks'
-], function (video, ourwork, nav, scrolling, mediaqueries, rocks) {
+], function (video, ourwork, nav, scrolling, mediaqueries, rocks) {	
 	'use strict';
 
+
+	// Set JWPlayer key
+	window.jwplayer.key = "fu2u0kgoWvXIFOm4Iiq7xsU3LJRLkDIfHE8ZKQ==";
+	
 	video.init();
 
 	ourwork.init();

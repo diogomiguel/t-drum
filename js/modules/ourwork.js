@@ -96,7 +96,9 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 			// get total number of possible loads
 			totalPages = $loadMore.attr('data-pages');
 
-			$('#js-ourwork-loadmore').on('click', function() {
+			$loadMore.on('click', function() {
+				// Swap for loading ajax
+				$loadMore.children('span').html('<img src="dist/img/ourwork-loader.gif" alt="Loading" />');
 				that.appendWorkItems.call(that);
 			});
 
@@ -176,6 +178,9 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 				// Bind Play video btn handler
 				that.playVideos();
 
+				// Reinstate Load more
+				$('#js-ourwork-loadmore').children('span').html("Load More +");
+
 				// Refresh dimensions
 				scrolling.refresh();
 			});
@@ -187,7 +192,9 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 				that = this;
 
 
-			// Big Devices 
+			// Big Devices
+			// Kill first to avoid repetition
+			$gridItems.off('click', '.ourwork__grid__item__play');
 			$gridItems.on('click', '.ourwork__grid__item__play', function(e){
 				console.log('Play Video');
 
@@ -195,12 +202,12 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 					$container	= $this.parents('.ourwork__grid__item'),
 					itemPos		= $container.position(),
 					$videoLayer	= $('<div id="js-ourword-videolayer"></div>'),
-					videoPath	= $this.attr('href');
+					videoPath	= $this.attr('href'),
+					$gridDisabler = $('<div class="ourwork__portfolio__disabler" id="js-ourwork-portfolio-disabler"></div>');
 
 				// Add the overlay prevent clicking transparent layer
-				$('#js-ourwork-portfolio').append('<div class="ourwork__portfolio__disabler" id="js-ourwork-portfolio-disabler"></div>');
+				$('#js-ourwork-portfolio').append($gridDisabler);
 
-				var $gridDisabler = $('#js-ourwork-portfolio-disabler');
 
 				// Make grid items more transparent
 				$gridItems.fadeTo(500, 0.5);
@@ -236,13 +243,30 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 					height: 300,
 					opacity: 1
 				}, 750, function() {
-					var $this = $(this);
+					var $this = $(this),
+						$closeVideo = $('<div class="ourwork__videolayer__close" id="js-ourwork-video-close"></div>');
 
 					$this.addClass('ourwork__videolayer--active');
-					$this.append('<div class="ourwork__videolayer__close" id="js-ourwork-video-close"></div>');
+					$this.append($closeVideo);
 
 
 					$videoLayer.append('<div id="js-ourword-videolayer-player"></div>');
+
+					
+
+					$closeVideo.on('click', function() {
+						// Close Layer
+						$videoLayer.stop().animate({
+							width: 0,
+							height: 0,
+							opacity: 0
+						}, 500, function() {
+							// Bye bye layer
+							$videoLayer.remove();
+							$gridDisabler.remove();
+						});
+						$gridItems.fadeTo(500, 1);
+					});
 
 					// Lets load that video and play it with JWPlayer. Ain't nobody got time for video tags
 					console.log(videoPath);
@@ -254,26 +278,13 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 						autostart: true,
 						flashplayer: 'dist/videos/jwplayer.flash.swf'
 					});
-
-					$('#js-ourwork-video-close').on('click', function() {
-						// Close Layer
-						$videoLayer.animate({
-							width: 0,
-							height: 0,
-							opacity: 0
-						}, 500, function() {
-							// Bye bye layer
-							$videoLayer.remove();
-							$gridDisabler.remove();
-						});
-						$gridItems.fadeTo(500, 1);
-					});
 				});
 				e.preventDefault();
 			});
 
 
 			// Small Devices
+			$gridItems.off('click', '.ourwork__grid__item__image');
 			$gridItems.on('click', '.ourwork__grid__item__image', function(){
 
 				// Very slow logic --  Improve

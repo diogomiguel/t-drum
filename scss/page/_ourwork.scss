@@ -186,7 +186,7 @@
 	position:absolute;
 	right: 10px;
 	top: 10px;
-	z-index: 2;
+	z-index: 10000;
 	width: 32px;
 	height: 32px;
 	background: url($images-path + 'video-cross.png') no-repeat;

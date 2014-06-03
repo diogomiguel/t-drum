@@ -51,9 +51,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('dev', [
 		'jshint',
 		'compass:dev',
-		'copy',
-		'requirejs',
-		'pages:dev'
+		'requirejs'
 	]);
 
 	// A task for deployment
@@ -62,11 +60,7 @@ module.exports = function (grunt) {
 		'modernizr',
 		'compass:build',
 		'imagemin',
-		'copy',
-		'requirejs',
-		'connect:test',
-		'karma:unit',
-		'pages:build'
+		'requirejs'
 	]);
 
 	// A task for testing production code
