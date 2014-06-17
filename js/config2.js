@@ -4,7 +4,7 @@
 require.config({
 
 	// Initialize the application with the main application file
-	deps: ['plugins/console', 'plugins/istouch', 'plugins/mqsync', 'plugins/jwplayer', 'plugins/jwplayer.html5', 'main'],
+	deps: ['plugins/console', 'plugins/istouch', 'plugins/mqsync', 'plugins/jwplayer', 'plugins/jwplayer.html5', 'main2'],
 
 	paths: {
 		'jquery'	: '../components/jquery/jquery.min',

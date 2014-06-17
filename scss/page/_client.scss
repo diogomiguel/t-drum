@@ -3,8 +3,9 @@
  */
 .client-transitions-container{
 	background-color: $blue-color;
-	z-index: 0;
+	z-index: 1;
 	position: relative;
+	visibility: hidden;
 	div{
 		background-size: cover;
 		background-repeat: no-repeat;
@@ -14,6 +15,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		display: none;
 	}
 }
 .client-transition-slide1{
@@ -33,16 +35,19 @@
 	left: 0%;
 }
  .client{
- 	min-height: em(1000px);
 	position: relative;
 	background-color: $blue-color;
-	height:100%
+	height:100%;
+	display: table;
+	width: em(458px);
+	margin: 0 auto;
  }
  .client__form{
- 	padding: em(384px) 0 em(440px);
- 	margin: 0 auto;
- 	width: em(458px);
-
+ 	padding: 0;
+ 	margin: 0;
+ 	width: 100%;
+	display: table-cell;
+	vertical-align: middle;
  	legend{
  		margin-bottom: em(16px, 50px);
  	}
@@ -92,6 +97,9 @@
 }
 .client__form__email__row{
 	border-bottom: 1px solid $grey-color;
+}
+.client__wrapper{
+	background-color: $blue-color;
 }
 
 .footer{

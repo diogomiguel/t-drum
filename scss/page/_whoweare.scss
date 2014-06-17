@@ -5,8 +5,13 @@
 .whoweare{
  	min-height: em(1041px);
  	background: url($images-path + 'whatwedo-bg.jpg') no-repeat;
- 	background-size: cover;
  	z-index: 4;
+ 	background-size: cover;
+ 	background-position: center center;
+ 	-webkit-transform: initial!important;
+ 	-webkit-background-size:cover; 
+   	-moz-background-size:cover; 
+   	-o-background-size:cover; 
  	h2{
  		position: absolute;
  		width: 50%;

@@ -41,7 +41,7 @@ define(['jquery', 'skrollr'], function ($, skrollr) {
 			}
 
 			// Reset all elements manually
-			$('#js-homepage-section, #js-whatwedo-meteor, #js-whatwedo-section,#js-whatwedo-container').removeAttr('style');
+			$('#js-homepage-section, #js-whatwedo-meteor, #js-whatwedo-section,#js-whatwedo-container, #js-whoweare-section, #js-ourwork-section').removeAttr('style');
 			$('#js-ourwork-meteors, #js-whoweare-meteor-1, #js-whoweare-container, #js-client-wrapper, #js-client-section').removeAttr('style');
 			
 
@@ -52,13 +52,14 @@ define(['jquery', 'skrollr'], function ($, skrollr) {
 
 		refresh: function() {
 			
-			if (s) {
-				s.refresh();
-			} else {
-				this.init();
+			// Do not refresh if not the right mediaquery
+			if (window.currentMQ === "L" || window.currentMQ === "M") {
+				if (s) {
+					s.refresh();
+				} else {
+					this.init();
+				}
 			}
-			
-			
 		},
 
 		reinstate: function() {
@@ -67,6 +68,10 @@ define(['jquery', 'skrollr'], function ($, skrollr) {
 			// Reinstate skrollr
 			$clientTransition = $('#js-client-transitions-container');
 			$clientTransition.show();
+		},
+
+		getSkrollrInstance: function() {
+			return s;
 		}
 	};
 

@@ -5,7 +5,7 @@
  * @date 2014-5-19
  */
 
-define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'modules/rocks', 'modules/video'], function ($, ourwork, nav, scrolling, rocks, video) {
+define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'modules/rocks2', 'modules/video'], function ($, ourwork, nav, scrolling, rocks, video) {
 
 	// Strict mode to prevent sloppy JS
 	'use strict';

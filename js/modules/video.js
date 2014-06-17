@@ -27,7 +27,7 @@ define(['jquery'], function ($) {
 
 			$audiobtn.on('click', this.toggleAudio);
 
-			// Make Home area 100% to accomodate full size video
+			// Make Home area 100% toggleAudio accomodate full size video
 			var $homeSection = $('#js-homepage-section'),
 				$win         = $(window);
 
@@ -39,6 +39,14 @@ define(['jquery'], function ($) {
 
 			$win.resize();
 
+			// Load poster for mobile
+			if (window.isTouchDevice()) {
+				$video.setAttribute('poster','dist/img/mobile/video-bg.jpg');
+				$video.setAttribute('controls', 'controls');
+			}
+			
+			
+			
 		},
 
 		togglePlay: function() {
@@ -57,7 +65,29 @@ define(['jquery'], function ($) {
 			} else {
 				$video.muted = true;
 			}
+		},
+
+		disableControls: function() {
+			// To prevent menu overlay in mobile bug
+			$video.style.visibility = 'hidden';
+		},
+
+		enableControls: function() {
+			$video.style.visibility = 'visible';
+		},
+
+		setMobileVideoDimensions: function() {
+			console.log(this.isTouchDevice);
+			if (window.isTouchDevice()) {
+				$('#js-video').css('height', Math.round($(window).width() * 0.5625));
+			}
+		},
+
+		setDesktopVideoDimensions: function() {
+			$('#js-video').css('height', 'auto');
 		}
+
+		
 	};
 
 });

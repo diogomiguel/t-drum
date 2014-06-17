@@ -28,3 +28,15 @@ input:required:valid {
 	color: $main-color; 
 	@include box-shadow(none);
 }
+.browsehappy{
+	width:100%;
+	z-index:100000;
+	top:0;
+	text-align:center;
+	margin:0;
+	position:fixed;
+	font-size:1em;
+}
+* html .browsehappy{
+	position:absolute;
+}

@@ -5,7 +5,7 @@
  * @date 2014-5-19
  */
 
-define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
+define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, scrolling) {
 
 	// Strict mode to prevent sloppy JS
 	'use strict';
@@ -18,12 +18,14 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 		gridOptions = {
 			itemSelector: '.ourwork__grid__item',
 			layoutMode: 'masonry',
+			resizable: false,
 			animationEngine: "best-available",
 			masonry: {
 				columnWidth: 282,
 				gutterWidth: 12
 			}
-		};
+		},
+		activeMobileVideo;
 
 	// Public API
 	return {
@@ -31,7 +33,8 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 			var qsRegex,
 				// Masonry Our Work grid
 				$ourworkFilter = $('#js-ourwork-filters'),
-				$searchInput = $('#js__ourwork__search__input');
+				$searchInput = $('#js__ourwork__search__input'),
+				that = this;
 
 			// Set cur width accordingly to active media query
 			window.mqSync();
@@ -58,13 +61,13 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 				$ourworkFilter.find('a').removeClass("active");
 				$this.addClass('active');
 
-				$grid.isotope({
-					filter: filterValue,
-					transitionDuration: '0.5s'
-				});
+				that.gridReload(filterValue);
+				
 
 				// Refresh dimensions
-				scrolling.refresh();
+				setTimeout(function(){
+					scrolling.refresh();
+				}, 500);
 
 				return false;
 			});
@@ -76,22 +79,40 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 					$ourworkFilter.find('a').eq(0).addClass('active');
 
 					qsRegex = new RegExp( $quicksearch.val(), 'gi' );
-					$grid.isotope({
-						filter: function() {
-							return qsRegex ? $(this).text().match( qsRegex ) : true;
-						}
-					});
+						$grid.isotope({
+							filter: function() {
+								return qsRegex ? $(this).text().match( qsRegex ) : true;
+							}
+						});
+
+					// Display error msg if no results
+					var numItems = $grid.children('.ourwork__grid__item:not(.isotope-hidden)').length,
+						$searchMsg = $('#js-ourwork-searchmsg');
+
+					if (numItems === 0) {
+						$searchMsg.show();
+					} else {
+						$searchMsg.hide();
+					}
+
 					// Refresh dimensions
-					scrolling.refresh();
+					setTimeout(function(){
+						scrolling.refresh();
+					}, 500);
 				}));
+
+			// Prevent Search form submission
+			$('#js-ourwork-searchform').submit(function(event) {
+				/* Act on the event */
+				event.preventDefault();
+			});
 
 			$('#js__ourwork__search__btn').on('click', function() {
 				$searchInput.toggleClass('ourwork__search__input--hidden');
 			});
 
 			// Append more on click load more
-			var $loadMore = $('#js-ourwork-loadmore'),
-				that = this;
+			var $loadMore = $('#js-ourwork-loadmore');
 
 			// get total number of possible loads
 			totalPages = $loadMore.attr('data-pages');
@@ -166,6 +187,7 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 				// Remove Appended animation class
 				setTimeout(function() {
 					$elems.removeClass('ourwork__grid__append');
+					scrolling.refresh();
 				}, 1000);
 				
 				// Pagination checker -- if total loaded hide button and kill the handler
@@ -182,174 +204,192 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 				$('#js-ourwork-loadmore').children('span').html("Load More +");
 
 				// Refresh dimensions
-				scrolling.refresh();
+				//scrolling.refresh();
 			});
 		},
 
 		playVideos: function() {
 
-			var $gridItems = $grid.children('.ourwork__grid__item'),
-				that = this;
+			var $gridItems = $grid.children('.ourwork__grid__item');
 
 
-			// Big Devices
-			// Kill first to avoid repetition
-			$gridItems.off('click', '.ourwork__grid__item__play');
-			$gridItems.on('click', '.ourwork__grid__item__play', function(e){
-				console.log('Play Video');
+			if (window.currentMQ === "L" || window.currentMQ === "M") {
+				// Big Devices
+				// Kill first to avoid repetition
+				$gridItems.off('click', '.ourwork__grid__item__play');
+				$gridItems.on('click', '.ourwork__grid__item__play', function(e){
+					console.log('Play Video');
 
-				var $this		= $(this),
-					$container	= $this.parents('.ourwork__grid__item'),
-					itemPos		= $container.position(),
-					$videoLayer	= $('<div id="js-ourword-videolayer"></div>'),
-					videoPath	= $this.attr('href'),
-					$gridDisabler = $('<div class="ourwork__portfolio__disabler" id="js-ourwork-portfolio-disabler"></div>');
+					var $this		= $(this),
+						$container	= $this.parents('.ourwork__grid__item'),
+						itemPos		= $container.position(),
+						$videoLayer	= $('<div id="js-ourword-videolayer"></div>'),
+						videoPath	= $this.attr('href'),
+						$gridDisabler = $('<div class="ourwork__portfolio__disabler" id="js-ourwork-portfolio-disabler"></div>');
 
-				// Add the overlay prevent clicking transparent layer
-				$('#js-ourwork-portfolio').append($gridDisabler);
-
-
-				// Make grid items more transparent
-				$gridItems.fadeTo(500, 0.5);
-
-				// Check if has space to grow to the left
-				if (itemPos.left + 556 > $grid.width()) {
-					// Grow to the right
-					$videoLayer.css({ right: 12 });
-				} else {
-					// Grow to the left
-					$videoLayer.css({ left: itemPos.left });
-				}
-
-				// Check if has space to grow to the bottom
-				if (itemPos.top + 300 > $grid.height()) {
-					// Grow to the top
-					$videoLayer.css({ bottom: 12 });
-				} else {
-					// Grow to the bottom
-					$videoLayer.css({ top: itemPos.top });
-				}
+					// Add the overlay prevent clicking transparent layer
+					$('#js-ourwork-portfolio').append($gridDisabler);
 
 
-				// Set pos for overlay layer
-				
-				$videoLayer.addClass('ourwork__videolayer');
+					// Make grid items more transparent
+					$gridItems.fadeTo(500, 0.5);
 
-				$grid.append($videoLayer);
+					// Check if has space to grow to the left
+					if (itemPos.left + 556 > $grid.width()) {
+						// Grow to the right
+						$videoLayer.css({ right: 12 });
+					} else {
+						// Grow to the left
+						$videoLayer.css({ left: itemPos.left });
+					}
 
-				// Animation
-				$videoLayer.animate({
-					width: 556,
-					height: 300,
-					opacity: 1
-				}, 750, function() {
-					var $this = $(this),
-						$closeVideo = $('<div class="ourwork__videolayer__close" id="js-ourwork-video-close"></div>');
-
-					$this.addClass('ourwork__videolayer--active');
-					$this.append($closeVideo);
+					// Check if has space to grow to the bottom
+					if (itemPos.top + 300 > $grid.height()) {
+						// Grow to the top
+						$videoLayer.css({ bottom: 12 });
+					} else {
+						// Grow to the bottom
+						$videoLayer.css({ top: itemPos.top });
+					}
 
 
-					$videoLayer.append('<div id="js-ourword-videolayer-player"></div>');
-
+					// Set pos for overlay layer
 					
+					$videoLayer.addClass('ourwork__videolayer');
 
-					$closeVideo.on('click', function() {
-						// Close Layer
-						$videoLayer.stop().animate({
-							width: 0,
-							height: 0,
-							opacity: 0
-						}, 500, function() {
-							// Bye bye layer
-							$videoLayer.remove();
-							$gridDisabler.remove();
-						});
-						$gridItems.fadeTo(500, 1);
-					});
+					$grid.append($videoLayer);
 
-					// Lets load that video and play it with JWPlayer. Ain't nobody got time for video tags
-					console.log(videoPath);
-
-					window.jwplayer("js-ourword-videolayer-player").setup({
-						file: videoPath,
+					// Animation
+					$videoLayer.animate({
 						width: 556,
 						height: 300,
-						autostart: true,
-						flashplayer: 'dist/videos/jwplayer.flash.swf'
+						opacity: 1
+					}, 750, function() {
+						var $this = $(this),
+							$closeVideo = $('<div class="ourwork__videolayer__close" id="js-ourwork-video-close"></div>');
+
+						$this.addClass('ourwork__videolayer--active');
+						$this.append($closeVideo);
+
+
+						$videoLayer.append('<div id="js-ourword-videolayer-player"></div>');
+
+						
+
+						$closeVideo.on('click', function() {
+							// Close Layer
+							$videoLayer.stop().animate({
+								width: 0,
+								height: 0,
+								opacity: 0
+							}, 500, function() {
+								// Bye bye layer
+								$videoLayer.remove();
+								$gridDisabler.remove();
+							});
+							$gridItems.fadeTo(500, 1);
+						});
+
+						// Lets load that video and play it with JWPlayer. Ain't nobody got time for video tags
+						console.log(videoPath);
+
+						window.jwplayer("js-ourword-videolayer-player").setup({
+							file: videoPath,
+							width: 556,
+							height: 300,
+							autostart: true,
+							flashplayer: 'dist/videos/jwplayer.flash.swf'
+						});
 					});
+					e.preventDefault();
 				});
-				e.preventDefault();
-			});
 
+			} else {
+				// Load mobile videos in our work
+				var $gridItemsMobile = $grid.find('.ourwork__grid__item__image'),
+				n = 1;
+			
+				// Small Devices
+				$gridItemsMobile.bind('click', function(){
 
-			// Small Devices
-			$gridItems.off('click', '.ourwork__grid__item__image');
-			$gridItems.on('click', '.ourwork__grid__item__image', function(){
+					// Very slow logic --  Improve
 
-				// Very slow logic --  Improve
-
-				console.log('Play Video');
-
-
-				var $this = $(this),
-					$thisParent = $this.parents('.ourwork__grid__item');
-
-				if ($this.hasClass('ourwork__grid__item__image--playing')) {
-					// Is playing, pause
-					window.jwplayer().pause();
-					$this.removeClass('ourwork__grid__item__image--playing');
-					$this.addClass('ourwork__grid__item__image--paused');
-				} else if($this.hasClass('ourwork__grid__item__image--paused')) {
-					// If paused, play
-					window.jwplayer().play();
-					$this.removeClass('ourwork__grid__item__image--paused');
-					$this.addClass('ourwork__grid__item__image--playing');
-				} else {
 					
 
-					that.destroyMobileVideoInstances();
 
-					var $videoLayer = $('<div class="ourwork__videolayer--mobile" id="ourwork-videolayer-mobile"><div id="ourwork-videolayer-mobile-player"></div></div>'),
-						videoPath = $thisParent.find('.ourwork__grid__item__play').attr('href');
+					var $this = $(this),
+						$thisParent = $this.parents('.ourwork__grid__item'),
+						mobileImg = $this.children('.ourwork__grid__item__image__mobile').attr('src');
 
-					console.log(videoPath);
+					if (!$this.hasClass('ourwork__grid__item__image--playing')) {
 
-					$this.append($videoLayer);
+						
+						console.log('Play Video');
+						//that.destroyMobileVideoInstances();
 
-					window.jwplayer('ourwork-videolayer-mobile-player').setup({
-						file: videoPath,
-						width: '100%',
-						height: '100%',
-						autostart: true,
-						flashplayer: 'dist/videos/jwplayer.flash.swf',
-						showicons: "false",
-						showdigits: "false",
-						controlbar: "over",
-						'controlbar.idlehide': "true"
-					});
+						var $videoLayer = $('<div class="ourwork__videolayer--mobile" id="ourwork-videolayer-mobile-' + n + '"><div id="ourwork-videolayer-mobile-player-' + n + '"></div></div>'),
+							videoPath = $thisParent.find('.ourwork__grid__item__play').attr('href');
 
-					// Set as playing
-					$this.addClass('ourwork__grid__item__image--playing');
-				}
-				
-			});
+						console.log(videoPath);
+
+						$this.append($videoLayer);
+
+						
+						// Check if any active player and stop
+						if (activeMobileVideo) {
+							window.jwplayer(activeMobileVideo).stop();
+						}
+
+
+						window.jwplayer('ourwork-videolayer-mobile-player-' + n).setup({
+							file: videoPath,
+							width: '100%',
+							height: '100%',
+							autostart: true,
+							'logo.hide': true,
+							logo: {
+								hide: true
+							},
+							image: mobileImg,
+							flashplayer: 'dist/videos/jwplayer.flash.swf',
+							"controls": {
+								"hideLogo": true
+							},
+							controlbar: "over"
+						});
+
+
+						// Set active video
+						activeMobileVideo = 'ourwork-videolayer-mobile-player-' + n;
+						
+
+						/* DITCH HTML5 because of poster is buggy
+						var $videoPlayer = $('#ourwork-videolayer-mobile-player-' + n),
+							videoHTML = '<video class="ourwork__mobilevideo" poster="dist/img/blank.png" style="background-image:url(' + mobileImg + ');" height="auto" width="100%" id="ourwork-videolayer-mobile-player-video-' + n + '">' +
+										'<source url="' + videoPath + '" type="video/mp4" />' +
+										'</video>';
+
+						$videoPlayer.html(videoHTML);
+
+						var $mobileVideo = $('#ourwork-videolayer-mobile-player-video-' + n);
+						$mobileVideo.attr('src', videoPath);
+						$mobileVideo[0].load();
+						*/
+
+						// Set as playing
+						$this.addClass('ourwork__grid__item__image--playing');
+					}
+					n ++;
+				});
+				this.gridReload("");
+			}
+			
+
+			
 			
 		},
 
-		destroyMobileVideoInstances: function() {
-			// Destroy first and then create player
-			if ($('#ourwork-videolayer-mobile').length) {
-				
 
-				// Remove play classes from parent movie
-				$('#ourwork-videolayer-mobile').parent()
-				.removeClass('ourwork__grid__item__image--paused')
-				.removeClass('ourwork__grid__item__image--playing');
-
-				$('#ourwork-videolayer-mobile').remove();
-			}
-		},
 
 		rearrangeGrid: function(cwidth) {
 			// Restart grid
@@ -359,16 +399,26 @@ define(['jquery', 'modules/scrolling', 'isotope'], function ($, scrolling) {
 			gridOptions.masonry.columnWidth = cwidth;
 			
 
-			setTimeout(function() {
-				$grid.isotope(gridOptions);
-			} , 500);
+			
+			$grid.isotope(gridOptions);
+		},
+
+		gridReload: function(filterValue) {
+			$grid.imagesLoaded(function(){
+				$grid.isotope({
+					filter: filterValue,
+					transitionDuration: '0.5s'
+				});
+			});
 		},
 
 		relayoutGrid: function(cwidth) {
 			console.log("RESIZABLE GRID");
 			gridOptions.masonry.columnWidth = cwidth;
 			gridOptions.filter = '';
-			$grid.isotope(gridOptions);
+			$grid.imagesLoaded(function(){
+				$grid.isotope(gridOptions);
+			});
 		},
 
 		_debounce: function(fn, threshold) {

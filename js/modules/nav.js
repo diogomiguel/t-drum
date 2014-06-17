@@ -5,7 +5,7 @@
  * @date 2014-5-19
  */
 
-define(['jquery'], function ($) {
+define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($, video, scrolling) {
 
 	// Strict mode to prevent sloppy JS
 	'use strict';
@@ -17,6 +17,7 @@ define(['jquery'], function ($) {
 		prevKeyFrame = 0,
 		nextKeyFrame = 0,
 		sectionElems = [],
+		imagesLazyLoaded = false,
 		$mainNav,
 		$navParent,
 		$mainNavLinks;
@@ -40,18 +41,26 @@ define(['jquery'], function ($) {
 			var $navMobileBtn = $('#js-mainnav-mobile-btn');
 
 			$navMobileBtn.on('click', function() {
-				var $this = $(this);
-
-				// Active
-				if ($this.hasClass('mainnav__mobile__btn--active')) {
-					$navParent.children('nav').removeClass('active');
-					$this.removeClass('mainnav__mobile__btn--active');
-				} else {
-					$navParent.children('nav').addClass('active');
-					$this.addClass('mainnav__mobile__btn--active');
+				if (window.currentMQ === "S" || window.currentMQ === "XS") {
+					var $this = $(this);
+					console.log("CLICK MOBILE NAV");
+					// Active
+					if ($this.hasClass('mainnav__mobile__btn--active')) {
+						$navParent.children('nav').removeClass('active');
+						$this.removeClass('mainnav__mobile__btn--active');
+						video.enableControls();
+					} else {
+						$navParent.children('nav').addClass('active');
+						$this.addClass('mainnav__mobile__btn--active');
+						setTimeout(function(){video.disableControls();},500);
+					}
 				}
 				
+				
 			});
+
+			
+
 		},
 
 		scrollSetup: function() {
@@ -89,10 +98,12 @@ define(['jquery'], function ($) {
 				if (n === 0) {
 					sectionData.keystart	= 0;
 				} else {
-					sectionData.keystart	= Math.round($this.offset().top);
+					// Client Area
+					sectionData.keystart	= Math.round($this.offset().top)  - $navParent.height();
+					
 				}
 				
-				sectionData.keyend		= sectionData.keystart + Math.round($this.innerHeight());
+				sectionData.keyend		= sectionData.keystart + Math.round($this.innerHeight()) ;
 				sectionData.element		= $this.attr('id');
 
 				sectionElems.push(sectionData);
@@ -113,7 +124,7 @@ define(['jquery'], function ($) {
 				keyend: 10000000,
 				element: 'js-client-section'
 			});
-
+			$('#js-mainnav-nav-clientarea').attr('data-menu-top', $('body').height());
 		},
 
 		controlMenu: function() {
@@ -149,6 +160,14 @@ define(['jquery'], function ($) {
 					$navParent.addClass('mainnav--active');
 					// Pause showreel
 					$video.pause();
+
+					// Lazyload our work image
+					if (currentSection >= 2 && !imagesLazyLoaded) {
+						$(".ourwork__grid__item__image img").lazyload({
+							effect : "fadeIn"
+						});
+						imagesLazyLoaded = true;
+					}
 				} else if (curSectionData) {
 					$navParent.removeClass('mainnav--active');
 					$video.play();
@@ -166,9 +185,13 @@ define(['jquery'], function ($) {
 
 		menuNavigate: function() {
 			// When menu clicked scroll to section
+			/*
+			});*/
+
+			
 			$mainNavLinks.on('click', function(e) {
 				var $elem = $($(this).attr('href')),
-					eOffset = $elem.offset().top + 5;
+					eOffset = $elem.offset().top + 5  - $navParent.height();
 
 				if ($(this).attr('href') === '#js-client-section') {
 					eOffset = $(document).height() - $window.height();
@@ -176,6 +199,9 @@ define(['jquery'], function ($) {
 
 				$("html, body").animate({ scrollTop: eOffset }, 800);
 
+				// Close nav
+				$('#js-mainnav-mobile-btn').trigger('click');
+				scrolling.refresh();
 				e.preventDefault();
 			});
 		}

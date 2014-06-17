@@ -1,4 +1,4 @@
-	/**
+/**
  * Module Description
  *
  * @author Author Name
@@ -11,8 +11,8 @@ require([
 	'modules/ourwork',
 	'modules/nav',
 	'modules/scrolling',
-	'modules/mediaqueries',
-	'modules/rocks'
+	'modules/mediaqueries2',
+	'modules/rocks2'
 	
 ], function (video, ourwork, nav, scrolling, mediaqueries, rocks) {
 	'use strict';
@@ -39,14 +39,12 @@ require([
 		jQuery.holdReady(false);
 	});
 
-	if (!window.isTouchDevice()) {
-		rocks.init();
-	}
-	
+
+	rocks.init();
 	
 	
 
-	if (window.currentMQ === "L" || window.currentMQ === "M" && !window.isTouchDevice()) {
+	if (window.currentMQ === "L" || window.currentMQ === "M") {
 		scrolling.init({
 			smoothScrolling: false
 		});
