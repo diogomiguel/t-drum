@@ -59,4 +59,13 @@ require([
 	if (window.currentMQ === "S" || window.currentMQ === "XS") {
 		video.setMobileVideoDimensions();
 	}
+
+	// Loading Complete = fade out loader
+	var $loadingSection = $('#js-loading-section');
+	$loadingSection.fadeOut(800, function(){
+		$loadingSection.hide();
+		$('html').removeAttr('style');
+	});
+
+	video.setAttributes();
 });

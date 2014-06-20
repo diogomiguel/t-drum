@@ -11,6 +11,20 @@
 	<!--[if lt IE 9]>
     <p class="browsehappy">You are using an <strong>outdated</strong> and <strong>unsupported</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+
+    <!-- LOADING SCREEN -->
+	<div class="loading" id="js-loading-section">
+		<img src="dist/img/preloader-animation.gif" alt="Loading" title="Loading" class="loading-img" />
+		<p class="loading-text">Loading</p>
+	</div>
+
+	<script type="text/javascript">
+		document.getElementById('js-loading-section').style.display = 'block';
+		var htmlElement = document.getElementsByTagName("html")[0];
+
+		htmlElement.style.overflow = 'hidden';
+	</script>
+
 	<!-- MAIN NAV -->
 	<div class="mainnav" id="js-mainnav">
 		<img src="dist/img/small-logo.gif" alt="Tin Drum music" width="164" class="mainnav__logo" />
@@ -54,6 +68,8 @@
 	</div>
 	<!-- END MAIN NAV -->
 
+	
+
 	<!-- HOMEPAGE -->
 	<section class="homepage" id="js-homepage-section" data-0="visibility:!visible;" data--400-top-bottom="visibility:!hidden;">
 		<header>
@@ -70,7 +86,7 @@
 			<button class="homepage__video__audio  homepage__video__button" id="js-video-audio">
 				<span>Mute/Unmute</span>
 			</button>
-			<video autoplay loop poster="dist/img/blank.png" class="homepage__video__player" id="js-video">
+			<video loop poster="dist/img/blank.png" class="homepage__video__player" id="js-video">
 				<source src="dist/videos/showreel.mp4" type="video/mp4">
 				<source src="dist/videos/showreel.webmhd.webm" type="video/webm">
 			</video>

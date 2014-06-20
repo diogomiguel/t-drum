@@ -39,14 +39,19 @@ define(['jquery'], function ($) {
 
 			$win.resize();
 
+			
+			
+			
+			
+		},
+
+		setAttributes: function() {
+			$video.setAttribute('autoplay', 'autoplay');
 			// Load poster for mobile
 			if (window.isTouchDevice()) {
 				$video.setAttribute('poster','dist/img/mobile/video-bg.jpg');
 				$video.setAttribute('controls', 'controls');
 			}
-			
-			
-			
 		},
 
 		togglePlay: function() {

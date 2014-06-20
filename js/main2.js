@@ -40,11 +40,13 @@ require([
 	});
 
 
-	rocks.init();
+	if (!window.isTouchDevice()) {
+		rocks.init();
+	}
 	
 	
 
-	if (window.currentMQ === "L" || window.currentMQ === "M") {
+	if (window.currentMQ === "L" || window.currentMQ === "M" && !window.isTouchDevice()) {
 		scrolling.init({
 			smoothScrolling: false
 		});
@@ -57,4 +59,14 @@ require([
 	if (window.currentMQ === "S" || window.currentMQ === "XS") {
 		video.setMobileVideoDimensions();
 	}
+
+
+	// Loading Complete = fade out loader
+	var $loadingSection = $('#js-loading-section');
+	$loadingSection.fadeOut(800, function(){
+		$loadingSection.hide();
+		$('html').removeAttr('style');
+	});
+
+	video.setAttributes();
 });
