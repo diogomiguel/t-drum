@@ -38,13 +38,14 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 					video.setMobileVideoDimensions();
 			        setTimeout(function(){
 						ourwork.rearrangeGrid(1000);
+						checkNavSections();
 					}, 500);
 					ourwork.playVideos();
 
 					// Destroy scrolling on enter
 					scrolling.destroy();
 
-					checkNavSections();
+					
 				},
 				touchOnResize = function() {
 					
@@ -54,32 +55,40 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 					// On resize re-arrange the our works grid
 					setTimeout(function(){
 						ourwork.rearrangeGrid(1000);
+						checkNavSections();
 					}, 500);
 
-					checkNavSections();
+					
 				},
 				desktopOnEnter = function() {
 
 					// If not initialized init scrolling here
 					if (!initScrolling) {
-						scrolling.init({
-							smoothScrolling: false
-						});
+						rocks.init();
+						scrolling.init();
 						initScrolling = true;
+						console.log("Init Scrolling and Rocks");
 					}
-					
 
-					checkNavSections();
 					ourwork.playVideos();
 
-					// Every resize refreshes the parallax
-					that.refreshParallax();
+					
 				},
 				desktopOnResize = function() {
 					// Every resize refreshes the parallax
 					that.refreshParallax();
 				};
+
+
+			// Add SSM config for touch devices
+			ssm.addConfigOption({name:"isTouch", test: function(){
+
+				return this.state.isTouch === window.isTouchDevice();
+			}});
+
 			
+
+			// Mobile Devices
 			ssm.addState({
 			    id: 'mobile',
 			    maxWidth: 767,
@@ -93,10 +102,11 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 			    }
 			});
 
+			// Tablets
 			ssm.addState({
 			    id: 'tabletS',
 			    minWidth: 768,
-			    maxWidth: 960,
+			    maxWidth: 961,
 			    onEnter: function() {
 					window.currentMQ = 'S';
 					touchOnEnter();
@@ -106,16 +116,41 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 					touchOnResize();
 			    }
 			});
+			// Tablets - when touch device is detected it never goes to desktop design - not even on Landscape
+			ssm.addState({
+			    id: 'tabletSTouch',
+			    minWidth: 961,
+			    maxWidth: 1024,
+			    isTouch: true,
+			    onEnter: function() {
+					window.currentMQ = 'S';
+					touchOnEnter();
+					console.log('enter Landscape Tablet Touch');
+			    },
+			    onResize: function() {
+					touchOnResize();
+			    }
+			});
 
+
+
+			// Small Desktop
 			ssm.addState({
 			    id: 'desktopM',
 				minWidth: 961,
 			    maxWidth: 1132,
+			    isTouch: false,
 			    onEnter: function(){
 					window.currentMQ = 'M';
 
 					setTimeout(function(){
 						ourwork.rearrangeGrid(236);
+
+						// Every resize refreshes the parallax
+						that.refreshParallax();
+
+						// Re-check navigation
+						checkNavSections();
 					}, 500);
 
 					// Scrolling is destroyed for onTouch. When moving to desktop reinstante
@@ -132,13 +167,21 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 				}
 			});
 
+			// Big Desktop
 			ssm.addState({
 			    id: 'desktopL',
 			    minWidth: 1133,
+			    isTouch: false,
 			    onEnter: function(){
 					window.currentMQ = 'L';
 					setTimeout(function(){
 						ourwork.rearrangeGrid(282);
+
+						// Every resize refreshes the parallax
+						that.refreshParallax();
+
+						// Re-check navigation
+						checkNavSections();
 					}, 500);
 					
 					desktopOnEnter();
@@ -151,13 +194,16 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 			});
 
 			ssm.ready();
-			
+
+
 			
 		},
 
 		refreshParallax: function() {
 			rocks.refresh();
 			scrolling.refresh();
+
+			console.log('Refresh Parallaxing');
 		}
 	};
 

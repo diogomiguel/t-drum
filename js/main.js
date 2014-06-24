@@ -10,11 +10,9 @@ require([
 	'modules/video',
 	'modules/ourwork',
 	'modules/nav',
-	'modules/scrolling',
-	'modules/mediaqueries',
-	'modules/rocks'
+	'modules/mediaqueries'
 	
-], function (video, ourwork, nav, scrolling, mediaqueries, rocks) {
+], function (video, ourwork, nav, mediaqueries) {
 	'use strict';
 
 
@@ -41,20 +39,19 @@ require([
 	$window.load(function() {
 		jQuery.holdReady(false);
 	});
-
-	if (!window.isTouchDevice()) {
-		rocks.init();
-	}
 	
 
 	nav.init();
 
-	mediaqueries.init();
-	
-	
 	
 
-	if (window.currentMQ === "S" || window.currentMQ === "XS") {
-		video.setMobileVideoDimensions();
-	}
+	// Loading Complete = fade out loader
+	var $loadingSection = $('#js-loading-section');
+	$loadingSection.fadeOut(800, function(){
+		$loadingSection.hide();
+		$('html').removeAttr('style');
+	});
+
+	// SSM MANAGER INIT
+	mediaqueries.init();
 });

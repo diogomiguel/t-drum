@@ -3,8 +3,10 @@
  */
 
  .ourwork{
- 	background-color:white;
+ 	background-color: $white-color;
  	padding-bottom: em(116px);
+ 	z-index: 2;
+ 	overflow: hidden;
  	h2{
  		padding: em(224px, 100px) 0 em(96px, 100px);
  		width:100%;
