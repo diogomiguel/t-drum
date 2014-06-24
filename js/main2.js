@@ -1,4 +1,4 @@
-/**
+	/**
  * Module Description
  *
  * @author Author Name
@@ -10,16 +10,17 @@ require([
 	'modules/video',
 	'modules/ourwork',
 	'modules/nav',
-	'modules/scrolling',
-	'modules/mediaqueries2',
-	'modules/rocks2'
+	'modules/mediaqueries2'
 	
-], function (video, ourwork, nav, scrolling, mediaqueries, rocks) {
+], function (video, ourwork, nav, mediaqueries) {
 	'use strict';
 
 
 	// Set JWPlayer key
 	window.jwplayer.key = "fu2u0kgoWvXIFOm4Iiq7xsU3LJRLkDIfHE8ZKQ==";
+
+	// Set Current Mediaquery
+	window.currentMQ = "unknown";
 	
 	video.init();
 	ourwork.init();
@@ -38,28 +39,11 @@ require([
 	$window.load(function() {
 		jQuery.holdReady(false);
 	});
-
-
-	if (!window.isTouchDevice()) {
-		rocks.init();
-	}
-	
 	
 
-	if (window.currentMQ === "L" || window.currentMQ === "M" && !window.isTouchDevice()) {
-		scrolling.init({
-			smoothScrolling: false
-		});
-	}
-	
-	mediaqueries.init();
-	
 	nav.init();
 
-	if (window.currentMQ === "S" || window.currentMQ === "XS") {
-		video.setMobileVideoDimensions();
-	}
-
+	
 
 	// Loading Complete = fade out loader
 	var $loadingSection = $('#js-loading-section');
@@ -68,5 +52,6 @@ require([
 		$('html').removeAttr('style');
 	});
 
-	video.setAttributes();
+	// SSM MANAGER INIT
+	mediaqueries.init();
 });
