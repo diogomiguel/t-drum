@@ -37,7 +37,7 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 				that = this;
 
 			// Set cur width accordingly to active media query
-			window.mqSync();
+			//window.mqSync();
 
 			if (window.currentMQ === "L") {
 				gridOptions.masonry.columnWidth = 282;

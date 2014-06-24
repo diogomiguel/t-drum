@@ -4,120 +4,160 @@
  * @author Diogo Silva
  * @date 2014-5-19
  */
+// Set default
 
-define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'modules/rocks', 'modules/video'], function ($, ourwork, nav, scrolling, rocks, video) {
+
+define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'modules/rocks', 'modules/video', 'simpleStateManager'], function ($, ourwork, nav, scrolling, rocks, video, ssm) {
 
 	// Strict mode to prevent sloppy JS
 	'use strict';
 
-	var pastMQ = '',
-		scrollIntervalID = 0,
-		windowWidth = 0,
-		windowHeight = 0,
-		documentHeight = 0,
-		$win = $(window),
-		$doc = $(document);
+	var documentHeight = 0,
+		$doc = $(document),
+		initScrolling = false;
 
 	// Public API
 	return {
 		
 		init: function() {
-			var that = this;
-
-			// Start tracking media queries changes
-			scrollIntervalID = setInterval(function(){
-				that.checkQueries.call(that);
-			}, 100);
-			
-			windowWidth = $win.width();
-			windowHeight = $win.height();
 			documentHeight = $doc.height();
 
-
-		},
-
-		checkQueries: function() {
-			var that = this;
-			/* Check what's current media. 
-				If different than past one, execute changes. */
-			window.mqSync();
-
-		
-			// Call based on viewport width change
-			if ($win.width() !== windowWidth) {
-				windowWidth = $win.width();
-				that.refreshParallax();
-				if (window.currentMQ === "S" || window.currentMQ === "XS") {
-					ourwork.rearrangeGrid(1000);
-					video.setMobileVideoDimensions();
-				}
-			}
-
-
-			// Call based on document height change
-			if ($doc.height() !== documentHeight) {
-				documentHeight = $doc.height();
-
-				nav.setSectionPositions();
-			}
-			if ($win.height() !== windowHeight) {
-				windowHeight = $win.height();
-
-				// Refresh parallax positionings
-				if (window.currentMQ === "L" || window.currentMQ === "M") {
-					rocks.refresh();
-					scrolling.refresh();
-				}
-			}
-			
-
-			// Call if query changed == faster!!
-			if (window.currentMQ !== pastMQ) {
-
-				// Change Grid with timeout to prevent styling hazard
-				setTimeout(function(){
+			var that = this,
+				checkNavSections = function() {
 					
-					if (window.currentMQ === "S" || window.currentMQ === "XS") {
+					
+					if (documentHeight !== $doc.height()) {
+					
+						// Set new break points for navigation when height of document changes
+						nav.setSectionPositions();
 
-						ourwork.rearrangeGrid(1000);
-					} else if(window.currentMQ === "L") {
-						ourwork.rearrangeGrid(282);
-						that.refreshParallax();
-					} else {
-						ourwork.rearrangeGrid(236);
-						that.refreshParallax();
+						documentHeight = $doc.height();
 					}
-				}, 500);
+				},
+				touchOnEnter = function() {
+					video.setMobileVideoDimensions();
+			        setTimeout(function(){
+						ourwork.rearrangeGrid(1000);
+					}, 500);
+					ourwork.playVideos();
 
-				switch (window.currentMQ) {
-					case 'L':
-					case 'M':
-						// Case desktops
-						if (pastMQ === "S" || pastMQ === "XS") {
-							scrolling.reinstate();
-							video.setDesktopVideoDimensions();
-						}
+					// Destroy scrolling on enter
+					scrolling.destroy();
 
-					break;
-					case 'S':
-					case 'XS':
-						// Case devices
-						if (pastMQ === "M" || pastMQ === "L") {
-							scrolling.destroy();
+					checkNavSections();
+				},
+				touchOnResize = function() {
+					
+					// On resize set new height for the main video
+					video.setMobileVideoDimensions();
 
-						}
-					break;
+					// On resize re-arrange the our works grid
+					setTimeout(function(){
+						ourwork.rearrangeGrid(1000);
+					}, 500);
+
+					checkNavSections();
+				},
+				desktopOnEnter = function() {
+
+					// If not initialized init scrolling here
+					if (!initScrolling) {
+						scrolling.init({
+							smoothScrolling: false
+						});
+						initScrolling = true;
+					}
+					
+
+					checkNavSections();
+					ourwork.playVideos();
+
+					// Every resize refreshes the parallax
+					that.refreshParallax();
+				},
+				desktopOnResize = function() {
+					// Every resize refreshes the parallax
+					that.refreshParallax();
+				};
+			
+			ssm.addState({
+			    id: 'mobile',
+			    maxWidth: 767,
+			    onEnter: function() {
+					window.currentMQ = 'XS';
+					touchOnEnter();
+					console.log('enter mobile');
+			    },
+			    onResize: function() {
+					touchOnResize();
+			    }
+			});
+
+			ssm.addState({
+			    id: 'tabletS',
+			    minWidth: 768,
+			    maxWidth: 960,
+			    onEnter: function() {
+					window.currentMQ = 'S';
+					touchOnEnter();
+					console.log('enter S - tablet');
+			    },
+			    onResize: function() {
+					touchOnResize();
+			    }
+			});
+
+			ssm.addState({
+			    id: 'desktopM',
+				minWidth: 961,
+			    maxWidth: 1132,
+			    onEnter: function(){
+					window.currentMQ = 'M';
+
+					setTimeout(function(){
+						ourwork.rearrangeGrid(236);
+					}, 500);
+
+					// Scrolling is destroyed for onTouch. When moving to desktop reinstante
+					scrolling.reinstate();
+					// Video is restored to what it should be
+					video.setDesktopVideoDimensions();
+
+					desktopOnEnter();
+					
+					console.log('enter M - desktop');
+			    },
+				onResize: function(){
+					desktopOnResize();
 				}
-				ourwork.playVideos();
-				pastMQ = window.currentMQ;
-			}
+			});
+
+			ssm.addState({
+			    id: 'desktopL',
+			    minWidth: 1133,
+			    onEnter: function(){
+					window.currentMQ = 'L';
+					setTimeout(function(){
+						ourwork.rearrangeGrid(282);
+					}, 500);
+					
+					desktopOnEnter();
+
+					console.log('enter L - desktop');
+			    },
+				onResize: function(){
+					desktopOnResize();
+				}
+			});
+
+			ssm.ready();
+			
+			
 		},
 
 		refreshParallax: function() {
-			if (window.currentMQ === "L" || window.currentMQ === "M") {
-				rocks.refresh();
-				scrolling.refresh();
-			}
+			rocks.refresh();
+			scrolling.refresh();
 		}
 	};
 

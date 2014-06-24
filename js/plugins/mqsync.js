@@ -1,5 +1,4 @@
-// Set default
-var currentMQ = "unknown";
+
 
 // Checks CSS value in active media query and syncs Javascript functionality
 var mqSync = function(){

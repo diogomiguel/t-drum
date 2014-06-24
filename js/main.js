@@ -20,6 +20,9 @@ require([
 
 	// Set JWPlayer key
 	window.jwplayer.key = "fu2u0kgoWvXIFOm4Iiq7xsU3LJRLkDIfHE8ZKQ==";
+
+	// Set Current Mediaquery
+	window.currentMQ = "unknown";
 	
 	video.init();
 	ourwork.init();
@@ -43,29 +46,15 @@ require([
 		rocks.init();
 	}
 	
-	
-	
 
-	if (window.currentMQ === "L" || window.currentMQ === "M" && !window.isTouchDevice()) {
-		scrolling.init({
-			smoothScrolling: false
-		});
-	}
-	
+	nav.init();
+
 	mediaqueries.init();
 	
-	nav.init();
+	
+	
 
 	if (window.currentMQ === "S" || window.currentMQ === "XS") {
 		video.setMobileVideoDimensions();
 	}
-
-	// Loading Complete = fade out loader
-	var $loadingSection = $('#js-loading-section');
-	$loadingSection.fadeOut(800, function(){
-		$loadingSection.hide();
-		$('html').removeAttr('style');
-	});
-
-	video.setAttributes();
 });
