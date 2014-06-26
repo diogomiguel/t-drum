@@ -589,14 +589,14 @@ define(['jquery'], function ($) {
 
 			// Text Container
 			
-			$whatWeContainer.attr('data-200-top', "top:" + sh + "px;position:!fixed;display:!block;");
+			$whatWeContainer.attr('data-200-top', "top:" + 900 + "px;position:!fixed;display:!block;");
 			$whatWeContainer.attr('data--800-top', "top:-50px;");
 			$whatWeContainer.attr('data--1500-top', "top:-100px;");
-			$whatWeContainer.attr('data--3600-top', "top:" + -(sh + 200) + "px;");
-			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh + 200) + "px;display:!none;");
+			$whatWeContainer.attr('data--6200-top', "top:" + -(900 + 200) + "px;");
+			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(700 + 200) + "px;display:!none;");
 
 			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(sh * 2.5);
+			$('#js-whatwedo-section').height(3200);
 		},
 
 		_whoweare: function() {
