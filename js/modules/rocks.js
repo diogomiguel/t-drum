@@ -281,7 +281,7 @@ define(['jquery'], function ($) {
 						x: sw - 462,
 						y: sha - 172,
 						rotation: -15,
-						velocity: 1.25
+						velocity: 1.5
 					}
 				},
 				{
@@ -407,42 +407,16 @@ define(['jquery'], function ($) {
 				var $this = $(this),
 				// assign data for skrollr
 					frames = meteor1RocksKeyframes[n],
-					startData = 'left:' + (frames.start.x) + 'px;top:' + (frames.start.y) + 'px;z-index:!' + ($rocks.length - n) + ';',
-					middleData = 'left[sqrt]: ' + (frames.middle.x) + 'px;top[sqrt]:' + (frames.middle.y) + 'px;z-index:!' + frames.middle.z + ';',
-					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[sqrt]:' + (frames.end.y) + 'px;';
+					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y + sh + 150) + 'px;';
 
 
-				// Start position
-				if (frames.start.scale) {
-					startData += 'transform:rotate(0deg) scale(' + frames.start.scale + ');';
-				} else {
-					startData += 'transform:rotate(0deg) scale(1);';
-				}
 				
-				$this.attr('data-0', startData);
-				$this.attr('data-top', startData);
-
-				// Middle position
-				middleData += "transform[sqrt]:";
-
-				if (frames.middle.rotation) {
-					// has rotation parameter
-					middleData += 'rotate('  + frames.middle.rotation +  'deg)';
-				} else {
-					// doesn't have rotation parameter
-					middleData += 'rotate(0deg)';
-				}
-
-				if (frames.middle.scale) {
-					middleData += ' scale(' + frames.middle.scale + ');';
-				} else {
-					middleData += ' scale(1);';
-				}
 				
-				$this.attr('data--200-top', middleData);
+				
+
 
 				// End position
-				endData += "transform[sqrt]:";
+				endData += "transform[swing]:";
 
 				if (frames.end.rotation) {
 					// has rotation parameter
@@ -460,11 +434,12 @@ define(['jquery'], function ($) {
 					endData += ' scale(' + finalScale + ')';
 				}
 				
-				$this.attr('data--800-top', endData);
-				$this.attr('data--900-top', 'top[swing]:' + frames.end.y + 'px;');
+				
+
+				$this.attr('data-top', endData);
 
 				// Move rocks out of screen
-				var posData = 'top[swing]:' + (frames.end.y - (sha + $this.height())) + 'px;';
+				var posData = 'top[swing]:' + (frames.end.y - (sha + $this.height() * 2)) + 'px;';
 				
 				
 
@@ -488,7 +463,7 @@ define(['jquery'], function ($) {
 					case 1.25:
 
 						// Final pos
-						$this.attr('data--4000-top', posData);
+						$this.attr('data--4200-top', posData);
 					break;
 				}
 				
@@ -498,7 +473,6 @@ define(['jquery'], function ($) {
 			});
 
 			// Meteor animation control
-			$meteor.attr('data-bottom-top', 'top:' + (sh + 1100) + 'px;display:!block;');
 			$meteor.attr('data-top', 'top:0px;display:!block;');
 			$meteor.attr('data-top-center', 'top:0;display:!block;');
 			$meteor.attr('data-top-bottom', 'display:!none;');
@@ -506,14 +480,11 @@ define(['jquery'], function ($) {
 
 			// Text Container
 			
-			$whatWeContainer.attr('data-200-top', "top:" + sh + "px;position:!fixed;display:!block;");
-			
-			$whatWeContainer.attr('data--3100-top', "top:-650px;");
-			$whatWeContainer.attr('data--3400-top', "top:" + -(sh + 200) + "px;");
-			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh + 200) + "px;display:!none;");
+			$whatWeContainer.attr('data-top', "top:" + sh + "px;position:!fixed;display:!block;");
+			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh * 1.5) + "px;display:!none;");
 
 			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(3400);
+			$('#js-whatwedo-section').height(3000);
 		},
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),
