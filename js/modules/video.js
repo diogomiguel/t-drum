@@ -26,6 +26,7 @@ define(['jquery'], function ($) {
 			$playbtn.on('click', this.togglePlay);
 
 			$audiobtn.on('click', this.toggleAudio);
+			$audiobtn.click();
 
 			// Make Home area 100% toggleAudio accomodate full size video
 			var $homeSection = $('#js-homepage-section'),
@@ -43,15 +44,6 @@ define(['jquery'], function ($) {
 			
 			
 			
-		},
-
-		setAttributes: function() {
-			$video.setAttribute('autoplay', 'autoplay');
-			// Load poster for mobile
-			if (window.isTouchDevice()) {
-				$video.setAttribute('poster','dist/img/mobile/video-bg.jpg');
-				$video.setAttribute('controls', 'controls');
-			}
 		},
 
 		togglePlay: function() {

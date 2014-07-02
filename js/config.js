@@ -34,9 +34,6 @@ require.config({
 		'simpleStateManager': {
 			exports: 'ssm'
 		}
-	},
-
-	// Prevent caching issues, by adding an additional URL argument
-	urlArgs: 'bust=' + (new Date()).getDate()
+	}
 
 });

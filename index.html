@@ -73,7 +73,7 @@
 	<!-- HOMEPAGE -->
 	<section class="homepage" id="js-homepage-section" data-0="visibility:!visible;" data--400-top-bottom="visibility:!hidden;">
 		<header>
-			<h1>
+			<h1 id="js-homepage__logo">
 				<img src="dist/img/logo.png" alt="Tin Drum Music Logo" width="778" height="427" />
 				<span>Tin Drum Music</span>
 			</h1>
@@ -95,16 +95,16 @@
 		
 	</section>
 
-	<img class="scrollmore" src="dist/img/scroll-label.png" alt="Scroll To Explore" width="157" height="45" data-anchor-target="#js-whatwedo-section" data-0="display:!block;" data-top="display:!block;" data-bottom-bottom="display:!none;" />
+	<img class="scrollmore" id="js-scrollmore" src="dist/img/scroll-label.png" alt="Scroll To Explore" width="157" height="45" data-anchor-target="#js-whatwedo-section" data-0="display:!block;" data-top="display:!block;" data-bottom-bottom="display:!none;" />
 	<!-- END HOMEPAGE -->
 	
 	
 
 	<!-- WHAT WE DO -->
 	<section class="whatwedo" id="js-whatwedo-section" data-0="visibility:!visible;" data--400-top-bottom="visibility:!hidden;">
-		<div class="whatwedo__container" id="js-whatwedo-container" data-anchor-target="#js-whatwedo-section" data--600-top="top:50px;position:!fixed;" data--800-top="top:0px;position:!fixed;">
+		<div class="whatwedo__container" id="js-whatwedo-container" data-anchor-target="#js-whatwedo-section">
 			<header>
-				<h2 data-anchor-target="#js-whatwedo-section">What We Do</h2>
+				<h2>What We Do</h2>
 			</header>
 
 			<div class="whatwedo__content">
@@ -471,9 +471,13 @@
 
 	<!-- CLIENTS AREA -->
 	<div class="client-transitions-container" id="js-client-transitions-container" data-0="visibility:!hidden;" data-top="visibility:!visible;display:!block;" data-anchor-target="#js-whoweare-section">
-		<div class="client-transition-slide1" data-bottom-top="display:!block;opacity:0;width: 100%; height: 100%; top: 0%; left: 0%;" data-top-bottom="display:!block;opacity: 1;width: 100%; height: 100%; top: 0%; left: 0%;" data-anchor-target="#js-whoweare-section" data--1200-top-bottom="opacity: 0; width: 156%; height: 156%; top: -28%; left: -28%;display:!none;"></div>
+		<div class="client-transition-slide1" data-bottom-top="display:!block;opacity:0;width: 100%; height: 100%; top: 0%; left: 0%;" data-top-bottom="display:!block;opacity: 1;width: 100%; height: 100%; top: 0%; left: 0%;" data-anchor-target="#js-whoweare-section" data--1200-top-bottom="opacity: 0; width: 180%; height: 180%; top: -40%; left: -40%;display:!none;">
+			<img src="dist/img/clients-bg.jpg" alt="Graphic purposes only" width="102.5%" class="client-transition-slide1__image-left" data-top="top:100px;" data-top-bottom="top:0px;width:100%;"  data--1200-top-bottom="width:95%;" data-anchor-target="#js-whoweare-section" />
 
+			<img src="dist/img/clients-bg-rocks.png" alt="Graphic purposes only" width="100%" class="client-transition-slide1__image-right" data-top="top:150px;" data-top-bottom="top:0px" data--1200-top-bottom="top:-125px" data-anchor-target="#js-whoweare-section" id="js-client-transition-slide1__image-right" />
+		</div>
 
+	
 	</div>
 	
 	<div data-anchor-target="#js-client-transitions-container" data-0="z-index:!3;display:!none;position:!fixed;width:!100%;height:!100%;top:!0;" data-300-top-center="opacity:0;position:!fixed;width:!100%;height:!100%;top:!0;z-index:!3;display:!block;" data-bottom-bottom="opacity:1;z-index:!3;width:!100%;height:!100%;top:!0;z-index:!3;display:!block;" class="client__wrapper" id="js-client-wrapper">

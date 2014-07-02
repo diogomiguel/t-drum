@@ -35,6 +35,20 @@ define(['jquery'], function ($) {
 			// amended for keyframes
 			scva = sha / 2;
 
+			// Calculate scroll more label position if window height is too small
+			var $scrollMore = $('#js-scrollmore'),
+				$homepageLogo = $('#js-homepage__logo');
+			if (sh < 700 && sh >= 550) {
+				$homepageLogo.css('top', '47.5%');
+				$scrollMore.css('bottom', '20px');
+			} else if (sh < 550) {
+				$scrollMore.css('bottom', '8px');
+				$homepageLogo.css('top', '45%');
+			} else {
+				$scrollMore.css('bottom', '68px');
+				$homepageLogo.css('top', '50%');
+			}
+
 			// What we do parallax
 			this._whatwedo();
 			
@@ -43,6 +57,9 @@ define(['jquery'], function ($) {
 
 			// Our work parallax
 			this._ourwork();
+
+			// Client area rocks size
+			this._client();
 		},
 
 		refresh: function() {
@@ -51,9 +68,7 @@ define(['jquery'], function ($) {
 			this.init();
 		},
 
-		
 		_whatwedo: function() {
-			console.log('WHATWEDO2');
 			// Place rocks dynamically
 			var $meteor	= $('#js-whatwedo-meteor'),
 				$rocks	= $meteor.children('.whatwedo__meteor__rock');
@@ -82,9 +97,8 @@ define(['jquery'], function ($) {
 					},
 
 					finish: {
-						x: sch + 712,
-						y: -500,
-						scale: 1.6
+						x: sch + 412,
+						y: -300
 					}
 				},
 				{
@@ -107,11 +121,6 @@ define(['jquery'], function ($) {
 						rotation: -6,
 						scale: 1,
 						velocity: 1.25
-					},
-					finish: {
-						x: sch - 1750,
-						y: scva + 405,
-						scale: 1.1
 					}
 				},
 				{
@@ -132,10 +141,6 @@ define(['jquery'], function ($) {
 						y: -160,
 						rotation: 23,
 						velocity: 1.5
-					},
-					finish: {
-						x: -200,
-						y: -560
 					}
 				},
 				{
@@ -156,10 +161,6 @@ define(['jquery'], function ($) {
 						y: scva - 276,
 						rotation: 15,
 						velocity: 1.25
-					},
-					finish: {
-						x: sw + 295,
-						y: scva - 676
 					}
 				},
 				{
@@ -180,10 +181,6 @@ define(['jquery'], function ($) {
 						y: sha - 152,
 						rotation: 220,
 						velocity: 1.5
-					},
-					finish: {
-						x: -440,
-						y: sha + 352
 					}
 				},
 				{
@@ -204,11 +201,6 @@ define(['jquery'], function ($) {
 						y: scva + 210,
 						scale: 1,
 						velocity: 1.75
-					},
-					finish: {
-						x: -629,
-						y: scva + 410,
-						scale: 2
 					}
 				},
 				{
@@ -230,11 +222,6 @@ define(['jquery'], function ($) {
 						y: 63,
 						scale: 1,
 						velocity: 1.75
-					},
-					finish: {
-						x: -820,
-						y: -563,
-						scale: 2
 					}
 				},
 				{
@@ -255,10 +242,6 @@ define(['jquery'], function ($) {
 						y: sha - 142,
 						rotation: 92,
 						velocity: 2
-					},
-					finish: {
-						x: sw,
-						y: sha + 342
 					}
 				},
 				{
@@ -279,10 +262,6 @@ define(['jquery'], function ($) {
 						y: sha - 306,
 						rotation: -15,
 						velocity: 1.75
-					},
-					finish: {
-						x: sw,
-						y: sha + 342
 					}
 				},
 				{
@@ -303,10 +282,6 @@ define(['jquery'], function ($) {
 						y: sha - 172,
 						rotation: -15,
 						velocity: 1.25
-					},
-					finish: {
-						x: sw - 162,
-						y: sha + 172
 					}
 				},
 				{
@@ -328,11 +303,6 @@ define(['jquery'], function ($) {
 						rotation: -12,
 						scale: 1,
 						velocity: 2
-					},
-					finish: {
-						x: sw + 174,
-						y: scva + 230,
-						scale: 1.5
 					}
 				},
 				{
@@ -354,11 +324,6 @@ define(['jquery'], function ($) {
 						rotation: -12,
 						scale: 1,
 						velocity: 2
-					},
-					finish: {
-						x: sw + 186,
-						y: scva + 180,
-						scale: 1.5
 					}
 				},
 
@@ -382,11 +347,6 @@ define(['jquery'], function ($) {
 						scale: 1,
 						rotation: -20,
 						velocity: 1.75
-					},
-					finish: {
-						x: sch - 1000,
-						y: -460,
-						scale: 1.5
 					}
 				},
 				{
@@ -408,11 +368,6 @@ define(['jquery'], function ($) {
 						rotation: -22,
 						scale: 1.5,
 						velocity: 2
-					},
-					finish: {
-						x: sw + 300,
-						y: -460,
-						scale: 2
 					}
 				}
 			];
@@ -506,11 +461,7 @@ define(['jquery'], function ($) {
 				}
 				
 				$this.attr('data--800-top', endData);
-				$this.attr('data--900-top', endData.replace(/sqrt/gi, 'swing'));
-
-				/*
-				Deprecated
-				Mietteries
+				$this.attr('data--900-top', 'top[swing]:' + frames.end.y + 'px;');
 
 				// Move rocks out of screen
 				var posData = 'top[swing]:' + (frames.end.y - (sha + $this.height())) + 'px;';
@@ -540,40 +491,6 @@ define(['jquery'], function ($) {
 						$this.attr('data--4000-top', posData);
 					break;
 				}
-				*/
-
-				// New Miettery - Move out in same direction
-				if (frames.finish) {
-					var posData = 'top[swing]:' + frames.finish.y + 'px;left[swing]:' + frames.finish.x + 'px;';
-
-					if (frames.finish.scale) {
-						posData += 'transform:rotate(0deg) scale(' + frames.finish.scale + ');';
-					}
-					switch (frames.end.velocity) {
-						case 2:
-							// Middle point data
-							
-							// Final pos
-							$this.attr('data--2400-top', posData);
-						break;
-						case 1.75:
-
-							// Final pos
-							$this.attr('data--3000-top', posData);
-						break;
-						case 1.5:
-
-							// Final pos
-							$this.attr('data--3200-top', posData);
-						break;
-						case 1.25:
-
-							// Final pos
-							$this.attr('data--3600-top', posData);
-						break;
-					}
-				}
-				
 				
 
 
@@ -589,27 +506,33 @@ define(['jquery'], function ($) {
 
 			// Text Container
 			
-			$whatWeContainer.attr('data-200-top', "top:" + 900 + "px;position:!fixed;display:!block;");
-			$whatWeContainer.attr('data--800-top', "top:-50px;");
-			$whatWeContainer.attr('data--1500-top', "top:-100px;");
-			$whatWeContainer.attr('data--6200-top', "top:" + -(900 + 200) + "px;");
-			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(800 + 200) + "px;display:!none;");
+			$whatWeContainer.attr('data-200-top', "top:" + sh + "px;position:!fixed;display:!block;");
+			
+			$whatWeContainer.attr('data--3100-top', "top:-650px;");
+			$whatWeContainer.attr('data--3400-top', "top:" + -(sh + 200) + "px;");
+			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh + 200) + "px;display:!none;");
 
 			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(3600);
+			$('#js-whatwedo-section').height(3400);
 		},
-
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),
 				$rock1 = $('#js-whoweare-meteor-1');
 
 			$biosContainer.attr('data-0', 'top:0;position:!absolute;');
-			$biosContainer.attr('data-bottom-top', 'transform:translate(0,' + (sh * 1.5) + 'px);position:!fixed;display:!block;');
-			$biosContainer.attr('data-top-bottom', 'transform:translate(0,' +  (-sha - 900) + 'px);display:!none;');
+			$biosContainer.attr('data-bottom-top', 'top:' + (sh * 1.5) + 'px;position:!fixed;display:!block;');
+			$biosContainer.attr('data-top-bottom', 'top:' +  (-sha - 900) + 'px;display:!none;');
 
+			/*
 			$rock1.attr('data-0', 'top:0px;position:!absolute;');
-			$rock1.attr('data-300-center-top', 'transform:translate(0,' + (sh + 300) + 'px);position:!fixed;display:!block;' );
-			$rock1.attr('data-top-bottom', 'transform:translate(0,' + -(sh - 300) + 'px);display:!none;' );
+			$rock1.attr('data-300-center-top', 'top:' + (sh + 300) + 'px;position:!fixed;display:!block;' );
+			$rock1.attr('data-top-bottom', 'top:' + -(sh - 300) + 'px;display:!none;' );
+			*/
+			$rock1.attr('data-0', 'top:' + (sh + 300) + 'px;position:!fixed;display:!none;');
+			$rock1.attr('data-bottom-top', 'top:' + (sh + 100) + 'px;display:!block;' );
+			$rock1.attr('data-center-top', 'top:' + (sh - 200) + 'px;display:!block;' );
+			
+			$rock1.attr('data-top-bottom', 'top:' + -($rock1.height() + 100) + 'px;display:!none;' );
 
 			$('#js-whoweare-section').height(sh);
 		},
@@ -618,8 +541,41 @@ define(['jquery'], function ($) {
 			var $meteors = $('#js-ourwork-meteors');
 
 			$meteors.attr('data-0', 'top:0px;position:!absolute;display:!block;');
-			$meteors.attr('data-bottom-top', 'transform:translate(0, 700px);position:!fixed;');
+			$meteors.attr('data-bottom-top', 'transform:translate(0, -100px);position:!fixed;');
 			$meteors.attr('data-top-bottom', 'transform:translate(0,50px);display:!none;');
+		},
+
+		_client: function() {
+			
+
+			// Check if rocks height is less than screen size
+
+			// Second rock
+			var $rockLeft = $('#js-client-transition-slide1__image-left');
+			
+			// Aspect ratio second rock == 1.32
+			var rockLeftNewWper = Math.round(sh * 1.32 / sw * 100);
+
+			if (rockLeftNewWper > 105) {
+				$rockLeft.width(rockLeftNewWper + '%');
+			} else {
+				$rockLeft.width('105%');
+			}
+
+
+			// Second rock
+			var $rockRight = $('#js-client-transition-slide1__image-right');
+			
+			// Aspect ratio second rock == 1.592
+			var rockRightNewWper = Math.round(sh * 1.592 / sw * 100);
+
+			if (rockRightNewWper > 100) {
+				$rockRight.width(rockRightNewWper + '%');
+			} else {
+				$rockRight.width('100%');
+			}
+			
+			
 		}
 	};
 
