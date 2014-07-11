@@ -407,13 +407,7 @@ define(['jquery'], function ($) {
 				var $this = $(this),
 				// assign data for skrollr
 					frames = meteor1RocksKeyframes[n],
-					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y + sh + 150) + 'px;';
-
-
-				
-				
-				
-
+					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y + sh -400) + 'px;';
 
 				// End position
 				endData += "transform[swing]:";
@@ -479,12 +473,12 @@ define(['jquery'], function ($) {
 			
 
 			// Text Container
+			$whatWeContainer.attr('data-0', 'top:0;position:!absolute;');
+			$whatWeContainer.attr('data-bottom-top', 'top:' + (sh * 1.5) + 'px;position:!fixed;display:!block;');
+			$whatWeContainer.attr('data-top-bottom', 'top:' +  (-sha - 600) + 'px;display:!none;');
 			
-			$whatWeContainer.attr('data-top', "top:" + sh + "px;position:!fixed;display:!block;");
-			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh * 1.5) + "px;display:!none;");
-
 			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(3000);
+			$('#js-whatwedo-section').height(1400);
 		},
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),

@@ -230,22 +230,22 @@ head {font-family:"S";}
    		}
    		.whatwedo__content__main{
    			font-size: em(27px);
-   			padding-bottom: em(64px, 27px);
+   			padding-bottom: em(35px,27px);
+			text-align:left;
    		}
 
    		.rock__graphic--mobile{
    			display: block;
    			position: absolute;
-   			z-index: 2;
    		}
    		.rock__graphic__1{
    			right: 0;
-   			top: -30%;
+   			top: 0;
    			width: em(323px);
    		}
    		.rock__graphic__2{
    			left: 0;
-   			bottom: -35%;
+   			bottom: 0;
    			width: em(360px);
    		}
 
@@ -433,25 +433,26 @@ head {font-family:"S";}
 /* ==========================================================================
    Who we are
    ========================================================================== */
-   		.whoweare h2{
+   		.whoweare h2, .whatwedo h2{
    			width: 100%;
    			text-align: center;
+			
    		}
-		.whoweare__bio{
+		.whoweare__bio, .whatwedo__table{
 			padding: 0;
 			position: relative;
 			z-index: 3;
 			margin: 0 auto;
 			left: 0;
 		}
-		.whoweare__bio__column{
+		.whoweare__bio__column, .whatwedo__column{
 			display: block;
 			min-height: 0;
 			padding-left: 0;
 			vertical-align: top;
 			width: 100%;
 		}
-		.whoweare__bio__person{
+		.whoweare__bio__person, .whatwedo__copy{
 			padding-bottom: em(68px);
 			text-align: left;
 			h3{

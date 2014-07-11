@@ -8,16 +8,15 @@
 /*
  * General styling
  */
-.whatwedo__meteor{
-	position: fixed;
-	display: none;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 5;
-}
+
 .whatwedo__meteor__rock, .whoweare__meteor__rock, .ourwork__meteor__rock{
 	position: absolute;
+}
+.whatwedo__meteor__rock{
+	z-index: 2;
+}
+.whatwedo__meteor__rock__2{
+	z-index: 0!important;
 }
 .whoweare__meteor__rock__1{
 	left:0;
