@@ -195,6 +195,10 @@ define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($
 
 				if ($(this).attr('href') === '#js-client-section') {
 					eOffset = $(document).height() - $window.height();
+				} else if ($(this).attr('href') === "#js-whatwedo-section") {
+					eOffset += $elem.innerHeight() / 2;
+				} else if ($(this).attr('href') === "#js-ourwork-section") {
+					eOffset += 180;
 				}
 
 				$("html, body").animate({ scrollTop: eOffset }, 800);

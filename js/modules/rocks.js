@@ -105,7 +105,7 @@ define(['jquery'], function ($) {
 
 					end: {
 						x: -290,
-						y: scva - 50,
+						y: scva - 150,
 						rotation: 0,
 						velocity: 1.25
 					}
@@ -166,7 +166,7 @@ define(['jquery'], function ($) {
 					
 					end: {
 						x: sw - 426,
-						y: sha - 242,
+						y: sha - 142,
 						rotation: 92,
 						velocity: 1.75
 					}
@@ -177,7 +177,7 @@ define(['jquery'], function ($) {
 
 					end: {
 						x: sw - 294,
-						y: sha - 506,
+						y: sha - 556,
 						rotation: -15,
 						velocity: 1
 					}
@@ -186,7 +186,7 @@ define(['jquery'], function ($) {
 				{
 
 					end: {
-						x: sw - 562,
+						x: sw - 662,
 						y: sha - 372,
 						rotation: 0,
 						velocity: 1.25
@@ -227,13 +227,25 @@ define(['jquery'], function ($) {
 						velocity: 2
 					}
 				},
-				//14
+				//15
 				{
 					
 
 					end: {
-						x: sw - 100,
+						x: sw - 200,
 						y: -38,
+						rotation: -22,
+						scale: 1,
+						velocity: 2
+					}
+				},
+				//16
+				{
+					
+
+					end: {
+						x: sw - 326,
+						y: sha,
 						rotation: -22,
 						scale: 1,
 						velocity: 2
@@ -318,8 +330,11 @@ define(['jquery'], function ($) {
 			$whatWeContainer.attr('data-0', 'top:' + (sh ) + 'px;position:!fixed;display:!block;');
 			$whatWeContainer.attr('data--200-top-bottom', 'top:' +  (-whatWeHalfHeight * 2) + 'px;margin-top:0px;display:!none;');
 			
-			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(5000);
+			// Set the what we do section behaviour
+			var $whatWeSection = $('#js-whatwedo-section');
+
+			$whatWeSection.attr('data-0', 'visibility:!visible;');
+			$whatWeSection.height(5000);
 		},
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),
