@@ -81,7 +81,7 @@ a{
 }
 
 .whatwedo__content__main{
-	font-size: em(34px);
+	font-size: em(22px);
 }
 
 .ourwork__filters li{
@@ -136,10 +136,11 @@ a{
 	font-size: em(16px);
 }
 
-.whoweare__bio__person{
+.whoweare__bio__person, .whatwedo__copy{
  	h3{
  		font-size: em(22px);
 		line-height: 1em;
+		font-family: $font-rotis-bold;
  		span{
  			font-size: em(8px, 22px);
  			display: block;

@@ -6,6 +6,7 @@
 	z-index: 1;
 	position: relative;
 	visibility: hidden;
+	-webkit-transform: initial!important;
 	div{
 		/*
 		background-size: cover;
@@ -43,7 +44,7 @@
 	top: 0;
 }
 .client-transition-slide1__image-right{
-	top: -98px;
+	top: 0;
 	position: absolute;
 	right: 0;
 }

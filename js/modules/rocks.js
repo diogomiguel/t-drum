@@ -73,250 +73,140 @@ define(['jquery'], function ($) {
 			var $meteor	= $('#js-whatwedo-meteor'),
 				$rocks	= $meteor.children('.whatwedo__meteor__rock');
 
+
+			// Dimension amends\
+			var newMeteorLft;
+
+			if (sw > 1350) {
+				newMeteorLft = (sw - 1350) / 2;
+				sw = 1350;
+				$meteor.css('left', newMeteorLft);
+			} else if (sw < 1280) {
+				newMeteorLft = (sw - 1280) / 2;
+				sw = 1280;
+				$meteor.css('left', newMeteorLft);
+			}
+
 			// Create the keyframes
 			meteor1RocksKeyframes = [
+				//1
 				{
-					start: {
-						x: sch - 84,
-						y: 271
-					},
-
-					middle: {
-						x: sch + 75,
-						y: 3,
-						rotation: 6,
-						z: 8
-					},
 
 					end: {
-						x: sch + 212,
+						x: sw - 362,
 						y: -100,
-						rotation: 15,
-						scale: 1.5,
-						velocity: 1.75
-					},
-
-					finish: {
-						x: sch + 412,
-						y: -300
-					}
-				},
-				{
-					start: {
-						x: sch - 413,
-						y: 428,
-						scale: 1
-					},
-
-					middle: {
-						x: sch - 488,
-						y: 371,
-						z: 6,
-						scale: 1
-					},
-
-					end: {
-						x: sch - 650,
-						y: scva + 5,
-						rotation: -6,
-						scale: 1,
-						velocity: 1.25
-					}
-				},
-				{
-					start: {
-						x: sch - 331,
-						y: 212
-					},
-
-					middle: {
-						x: sch - 625,
-						y: 57,
-						rotation: 10,
-						z: 5
-					},
-
-					end: {
-						x: 0,
-						y: -160,
-						rotation: 23,
+						rotation: 0,
 						velocity: 1.5
 					}
 				},
+				//2
 				{
-					start: {
-						x: sch + 21,
-						y: 482
-					},
+					
 
-					middle: {
-						x: sch + 191,
-						y: 387,
-						rotation: -7,
-						z: 3
-					},
+					end: {
+						x: -290,
+						y: scva - 50,
+						rotation: 0,
+						velocity: 1.25
+					}
+				},
+				//3
+				{
+
+					end: {
+						x: -300,
+						y: -160,
+						rotation: 0,
+						velocity: 1.25
+					}
+				},
+				//4
+				{
 
 					end: {
 						x: sw - 195,
-						y: scva - 276,
-						rotation: 15,
-						velocity: 1.25
+						y: 0,
+						rotation: 0,
+						velocity: 1
 					}
 				},
+				//5
 				{
-					start: {
-						x: sch - 106,
-						y: 576
-					},
-
-					middle: {
-						x: sch - 610,
-						y: 583,
-						rotation: 102,
-						z: 2
-					},
 
 					end: {
-						x: -40,
-						y: sha - 152,
-						rotation: 220,
-						velocity: 1.5
+						x: -210,
+						y: sha - 452,
+						rotation: 240,
+						velocity: 1
 					}
 				},
+				//6
 				{
-					start: {
-						x: sch - 158,
-						y: 538
-					},
-
-					middle: {
-						x: sch - 337,
-						y: 665,
-						z: 9,
-						scale: 0.5
-					},
+					
 
 					end: {
 						x: 29,
-						y: scva + 210,
+						y: scva + 410,
 						scale: 1,
-						velocity: 1.75
+						velocity: 2
 					}
 				},
+				//7
 				{
-					start: {
-						x: sch - 294,
-						y: 340,
-						scale: 0.5
-					},
-
-					middle: {
-						x: sch - 424,
-						y: 412,
-						z: 7,
-						scale: 0.5
-					},
 
 					end: {
-						x: -220,
+						x: -270,
 						y: 63,
 						scale: 1,
 						velocity: 1.75
 					}
 				},
+				//8
 				{
-					start: {
-						x: sch - 230,
-						y: 467
-					},
-
-					middle: {
-						x: sch + 309,
-						y: 606,
-						rotation: 70,
-						z: 4
-					},
-
+					
 					end: {
-						x: sw - 386,
-						y: sha - 142,
+						x: sw - 426,
+						y: sha - 242,
 						rotation: 92,
-						velocity: 2
-					}
-				},
-				{
-					start: {
-						x: sch - 373,
-						y: 646
-					},
-
-					middle: {
-						x: sch - 185,
-						y: 693,
-						rotation: 15,
-						z: 1
-					},
-
-					end: {
-						x: sw - 794,
-						y: sha - 306,
-						rotation: -15,
 						velocity: 1.75
 					}
 				},
+				//9
 				{
-					start: {
-						x: sch - 46,
-						y: 467
-					},
-
-					middle: {
-						x: sch + 219,
-						y: 689,
-						rotation: 18,
-						z: 0
-					},
+					
 
 					end: {
-						x: sw - 462,
-						y: sha - 172,
+						x: sw - 294,
+						y: sha - 506,
 						rotation: -15,
-						velocity: 1.5
+						velocity: 1
 					}
 				},
+				//10
 				{
-					start: {
-						x: sch + 187,
-						y: 561
-					},
-
-					middle: {
-						x: sch + 117,
-						y: 561,
-						z: 11,
-						scale: 0.5
-					},
 
 					end: {
-						x: sw - 174,
-						y: scva + 130,
+						x: sw - 562,
+						y: sha - 372,
+						rotation: 0,
+						velocity: 1.25
+					}
+				},
+				//11
+				{
+					
+
+					end: {
+						x: sw - 124,
+						y: scva - 230,
 						rotation: -12,
 						scale: 1,
-						velocity: 2
+						velocity: 1.75
 					}
 				},
+				//12
 				{
-					start: {
-						x: sch + 279,
-						y: 480
-					},
-
-					middle: {
-						x: sch + 262,
-						y: 511,
-						z: 10,
-						scale: 0.5
-					},
+					
 
 					end: {
 						x: sw - 86,
@@ -327,93 +217,41 @@ define(['jquery'], function ($) {
 					}
 				},
 
-				// EXTRAS
+				// 13
 				{
-					start: {
-						x: sch - 158,
-						y: 538
-					},
-
-					middle: {
-						x: sch - 337,
-						y: 665,
-						z: 9,
-						scale: 0.5
-					},
-
 					end: {
-						x: sch - 600,
-						y: -60,
+						x: 60,
+						y: 160,
 						scale: 1,
 						rotation: -20,
-						velocity: 1.75
+						velocity: 2
 					}
 				},
+				//14
 				{
-					start: {
-						x: sch + 187,
-						y: 561
-					},
-
-					middle: {
-						x: sch + 117,
-						y: 461,
-						z: 11,
-						scale: 0.5
-					},
+					
 
 					end: {
 						x: sw - 100,
 						y: -38,
 						rotation: -22,
-						scale: 1.5,
+						scale: 1,
 						velocity: 2
 					}
 				}
 			];
 
 			var n = 0,
-				finalScale = 1.1,
 				$whatWeContainer = $('#js-whatwedo-container');
 
 
-			// Second rock is problematic when screen is too small
-			if (sw <= 1450) {
-				finalScale = 1;
-				if (sw <= 1075) {
-					meteor1RocksKeyframes[1].end.scale = 0.8;
-					meteor1RocksKeyframes[1].end.x = -60;
-				} else {
-					meteor1RocksKeyframes[1].end.scale = 0.9;
-					meteor1RocksKeyframes[1].end.x = 0;
-				}
-				
-			} else {
-				meteor1RocksKeyframes[1].end.scale = 1.1;
-			}
-
-			if (sh <= 900) {
-				finalScale = 1;
-
-				// Push content up
-				$whatWeContainer.find('h2').css('top', '2.84em');
-				$whatWeContainer.find('.whatwedo__content').css('top', '26.875em');
-
-				// Make minimum height 960
-
-			}
+		
 
 			$rocks.each(function() {
 				var $this = $(this),
 				// assign data for skrollr
 					frames = meteor1RocksKeyframes[n],
-					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y + sh + 150) + 'px;';
-
-
-				
-				
-				
-
+					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y) + 'px;';
 
 				// End position
 				endData += "transform[swing]:";
@@ -425,21 +263,13 @@ define(['jquery'], function ($) {
 					// doesn't have rotation parameter
 					endData += 'rotate(0deg)';
 				}
-
-				if (frames.end.scale) {
-					// has scale parameter
-					endData += ' scale(' + frames.end.scale + ')';
-				} else {
-					// doesn't have rotation parameter
-					endData += ' scale(' + finalScale + ')';
-				}
 				
 				
 
-				$this.attr('data-top', endData);
+				$this.attr('data-0', endData);
 
 				// Move rocks out of screen
-				var posData = 'top[swing]:' + (frames.end.y - (sha + $this.height() * 2)) + 'px;';
+				var posData = 'top:' + (frames.end.y - (sha * 2.6 )) + 'px;';
 				
 				
 
@@ -448,22 +278,27 @@ define(['jquery'], function ($) {
 						// Middle point data
 						
 						// Final pos
-						$this.attr('data--2400-top', posData);
+						$this.attr('data--6400-top', posData);
 					break;
 					case 1.75:
 
 						// Final pos
-						$this.attr('data--3000-top', posData);
+						$this.attr('data--7600-top', posData);
 					break;
 					case 1.5:
 
 						// Final pos
-						$this.attr('data--3600-top', posData);
+						$this.attr('data--8200-top', posData);
 					break;
 					case 1.25:
 
 						// Final pos
-						$this.attr('data--4200-top', posData);
+						$this.attr('data--9000-top', posData);
+					break;
+					case 1:
+
+						// Final pos
+						$this.attr('data--9600-top', posData);
 					break;
 				}
 				
@@ -473,18 +308,18 @@ define(['jquery'], function ($) {
 			});
 
 			// Meteor animation control
-			$meteor.attr('data-top', 'top:0px;display:!block;');
-			$meteor.attr('data-top-center', 'top:0;display:!block;');
-			$meteor.attr('data-top-bottom', 'display:!none;');
+			$meteor.attr('data-0', 'top[outCubic]:' + (sh + 200) + 'px;display:!block;');
+			$meteor.attr('data-top-bottom', 'top:' + (scv + 200) + 'px;display:!none;');
 			
 
 			// Text Container
-			
-			$whatWeContainer.attr('data-top', "top:" + sh + "px;position:!fixed;display:!block;");
-			$whatWeContainer.attr('data--500-top-bottom', "top:" + -(sh * 1.5) + "px;display:!none;");
+			var whatWeHalfHeight = Math.round($whatWeContainer.height() / 2);
 
+			$whatWeContainer.attr('data-0', 'top:' + (sh ) + 'px;position:!fixed;display:!block;');
+			$whatWeContainer.attr('data--200-top-bottom', 'top:' +  (-whatWeHalfHeight * 2) + 'px;margin-top:0px;display:!none;');
+			
 			// Set the what we do section behaviour 
-			$('#js-whatwedo-section').height(3000);
+			$('#js-whatwedo-section').height(5000);
 		},
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),
@@ -522,10 +357,12 @@ define(['jquery'], function ($) {
 			// Check if rocks height is less than screen size
 
 			// Second rock
-			var $rockLeft = $('#js-client-transition-slide1__image-left');
+			var $rockLeft = $('#js-client-transition-slide1__image-left'),
+				nsw = $window.width(),
+				nsh = $window.height();
 			
 			// Aspect ratio second rock == 1.32
-			var rockLeftNewWper = Math.round(sh * 1.32 / sw * 100);
+			var rockLeftNewWper = Math.round(nsh * 1.32 / nsw * 100);
 
 			if (rockLeftNewWper > 105) {
 				$rockLeft.width(rockLeftNewWper + '%');
@@ -538,7 +375,7 @@ define(['jquery'], function ($) {
 			var $rockRight = $('#js-client-transition-slide1__image-right');
 			
 			// Aspect ratio second rock == 1.592
-			var rockRightNewWper = Math.round(sh * 1.592 / sw * 100);
+			var rockRightNewWper = Math.round(nsh * 1.592 / nsw * 100);
 
 			if (rockRightNewWper > 100) {
 				$rockRight.width(rockRightNewWper + '%');
