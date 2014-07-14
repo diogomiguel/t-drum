@@ -105,7 +105,7 @@ define(['jquery'], function ($) {
 
 					end: {
 						x: -290,
-						y: scva - 150,
+						y: scva - 200,
 						rotation: 0,
 						velocity: 1.25
 					}
@@ -244,7 +244,7 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: sw - 326,
+						x: sw - 226,
 						y: sha,
 						rotation: -22,
 						scale: 1,
