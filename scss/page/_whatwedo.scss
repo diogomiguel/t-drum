@@ -3,14 +3,15 @@
  */
  .whatwedo{
  	min-height: em(1041px);
- 	background: url($images-path + 'whatwedo-bg.jpg') no-repeat;
+ 	
  	z-index: 4;
- 	background-size: cover;
+ 	/*background-size: cover;
  	background-position: center center;
  	-webkit-transform: initial!important;
  	-webkit-background-size:cover; 
    	-moz-background-size:cover; 
-   	-o-background-size:cover; 
+   	background: url($images-path + 'whatwedo-bg.jpg') no-repeat;
+   	-o-background-size:cover; */
 	max-width: 100%;
 	overflow: hidden;
 	h2{
@@ -22,10 +23,26 @@
  .whatwedo__container{
  	position: fixed;
  	width:100%;
- 	z-index: 1;
+ 	z-index: 4;
  	-webkit-transform: initial!important;
 	display: block;	
  }
+  .whatwedo__bg{
+  	position: absolute;
+  	height: 100%;
+  	z-index: 0;
+  	background: url($images-path + 'whatwedo-bg.jpg') no-repeat white;
+  	background-size: cover;
+ 	background-position: center center;
+ 	-webkit-transform: translateZ(0);
+ 	-webkit-background-size:cover; 
+   	-moz-background-size:cover; 
+   	-o-background-size:cover; 
+   	max-width: 100%;
+   	width: 100%;
+   	top:0;
+   	left:0;
+  }
  
  .whatwedo__content{
  	position:relative;

@@ -71,7 +71,8 @@ define(['jquery'], function ($) {
 		_whatwedo: function() {
 			// Place rocks dynamically
 			var $meteor	= $('#js-whatwedo-meteor'),
-				$rocks	= $meteor.children('.whatwedo__meteor__rock');
+				$rocks	= $meteor.children('.whatwedo__meteor__rock'),
+				whatWeHeight = 5000;
 
 
 			// Dimension amends\
@@ -93,10 +94,9 @@ define(['jquery'], function ($) {
 				{
 
 					end: {
-						x: sw - 362,
-						y: -100,
-						rotation: 0,
-						velocity: 1.5
+						x: sw - 370,
+						y: 350, // 190
+						velocity: 1.75
 					}
 				},
 				//2
@@ -104,40 +104,36 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: -290,
-						y: scva - 200,
-						rotation: 0,
-						velocity: 1.25
+						x: sw - 464,
+						y: whatWeHeight / 2.5,
+						velocity: 1.5
 					}
 				},
 				//3
 				{
 
 					end: {
-						x: -300,
-						y: -160,
-						rotation: 0,
-						velocity: 1.25
+						x: sw - 230,
+						y: 393,
+						velocity: 1
 					}
 				},
 				//4
 				{
 
 					end: {
-						x: sw - 195,
-						y: 0,
-						rotation: 0,
-						velocity: 1
+						x: 264,
+						y: 250, // 50
+						velocity: 2.25
 					}
 				},
 				//5
 				{
 
 					end: {
-						x: -210,
-						y: sha - 452,
-						rotation: 240,
-						velocity: 1
+						x: -180,
+						y: 795,
+						velocity: 1.75
 					}
 				},
 				//6
@@ -145,30 +141,27 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: 29,
-						y: scva + 410,
-						scale: 1,
-						velocity: 2
+						x: 100,
+						y: 900,
+						velocity: 1.25
 					}
 				},
 				//7
 				{
 
 					end: {
-						x: -270,
-						y: 63,
-						scale: 1,
-						velocity: 1.75
+						x: 40,
+						y: 352,
+						velocity: 1
 					}
 				},
 				//8
 				{
 					
 					end: {
-						x: sw - 426,
-						y: sha - 142,
-						rotation: 92,
-						velocity: 1.75
+						x: sw - 430,
+						y: whatWeHeight / 2.5 - 476, // - 99,
+						velocity: 1.25
 					}
 				},
 				//9
@@ -176,19 +169,17 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: sw - 294,
-						y: sha - 556,
-						rotation: -15,
-						velocity: 1
+						x: sw - 440,
+						y: whatWeHeight / 2.5 - 428,
+						velocity: 1.15
 					}
 				},
 				//10
 				{
 
 					end: {
-						x: sw - 662,
-						y: sha - 372,
-						rotation: 0,
+						x: sw - 610,
+						y: 1072,
 						velocity: 1.25
 					}
 				},
@@ -197,11 +188,9 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: sw - 124,
-						y: scva - 230,
-						rotation: -12,
-						scale: 1,
-						velocity: 1.75
+						x: 473,
+						y: whatWeHeight / 2.5 - 555,
+						velocity: 1
 					}
 				},
 				//12
@@ -209,52 +198,16 @@ define(['jquery'], function ($) {
 					
 
 					end: {
-						x: sw - 86,
-						y: scva + 80,
-						rotation: -12,
-						scale: 1,
-						velocity: 2
-					}
-				},
-
-				// 13
-				{
-					end: {
-						x: 60,
-						y: 160,
-						scale: 1,
-						rotation: -20,
-						velocity: 2
-					}
-				},
-				//15
-				{
-					
-
-					end: {
-						x: sw - 200,
-						y: -38,
-						rotation: -22,
-						scale: 1,
-						velocity: 2
-					}
-				},
-				//16
-				{
-					
-
-					end: {
-						x: sw - 226,
-						y: sha,
-						rotation: -22,
-						scale: 1,
-						velocity: 2
+						x: 344,
+						y: whatWeHeight / 2.5 + 1040,
+						velocity: 1.75
 					}
 				}
 			];
 
 			var n = 0,
-				$whatWeContainer = $('#js-whatwedo-container');
+				$whatWeContainer = $('#js-whatwedo-container'),
+				$whatWeBg = $('#js-whatwedo-bg');
 
 
 		
@@ -265,27 +218,21 @@ define(['jquery'], function ($) {
 					frames = meteor1RocksKeyframes[n],
 					endData = 'left[sqrt]:' + (frames.end.x) + 'px;top[swing]:' + (frames.end.y) + 'px;';
 
-				// End position
-				endData += "transform[swing]:";
-
-				if (frames.end.rotation) {
-					// has rotation parameter
-					endData += 'rotate(' + frames.end.rotation + 'deg)';
-				} else {
-					// doesn't have rotation parameter
-					endData += 'rotate(0deg)';
-				}
-				
-				
 
 				$this.attr('data-0', endData);
 
 				// Move rocks out of screen
-				var posData = 'top:' + (frames.end.y - (sha * 2.6 )) + 'px;';
+				var posData = 'top:' + (frames.end.y - (sha * 5 )) + 'px;';
 				
 				
 
 				switch (frames.end.velocity) {
+					case 2.25:
+						// Middle point data
+						
+						// Final pos
+						$this.attr('data--5800-top', posData);
+					break;
 					case 2:
 						// Middle point data
 						
@@ -295,22 +242,27 @@ define(['jquery'], function ($) {
 					case 1.75:
 
 						// Final pos
-						$this.attr('data--7600-top', posData);
+						$this.attr('data--7400-top', posData);
 					break;
 					case 1.5:
 
 						// Final pos
-						$this.attr('data--8200-top', posData);
+						$this.attr('data--8400-top', posData);
 					break;
 					case 1.25:
 
 						// Final pos
-						$this.attr('data--9000-top', posData);
+						$this.attr('data--10400-top', posData);
+					break;
+					case 1.15:
+
+						// Final pos
+						$this.attr('data--11400-top', posData);
 					break;
 					case 1:
 
 						// Final pos
-						$this.attr('data--9600-top', posData);
+						$this.attr('data--12400-top', posData);
 					break;
 				}
 				
@@ -320,8 +272,8 @@ define(['jquery'], function ($) {
 			});
 
 			// Meteor animation control
-			$meteor.attr('data-0', 'top[outCubic]:' + (sh + 200) + 'px;display:!block;');
-			$meteor.attr('data-top-bottom', 'top:' + (scv + 200) + 'px;display:!none;');
+			$meteor.attr('data-0', 'top[outCubic]:' + (sh) + 'px;display:!block;');
+			$meteor.attr('data-top-bottom', 'top:' + (scv - 200) + 'px;display:!none;');
 			
 
 			// Text Container
@@ -334,7 +286,20 @@ define(['jquery'], function ($) {
 			var $whatWeSection = $('#js-whatwedo-section');
 
 			$whatWeSection.attr('data-0', 'visibility:!visible;');
-			$whatWeSection.height(5000);
+			$whatWeSection.height(whatWeHeight);
+
+
+			// Address bg what we do situation
+			$whatWeBg.height(sh);
+			$whatWeBg.css('position', 'fixed');
+			$whatWeBg.attr('data-0', 'top:' + sh + 'px;');
+			$whatWeBg.attr('data-' + Math.round(sh + sh), 'top:0px;');
+			$whatWeBg.attr('data-' + (whatWeHeight), 'top:0px');
+			$whatWeBg.attr('data-' + (whatWeHeight + sh), 'top:-' + sh + 'px');
+
+			// Hide home panel after bg reaches top + 100px
+			$('#js-homepage-section').attr('data-' + Math.round(sh + sh + 100), 'visibility:!hidden;');
+
 		},
 		_whoweare: function() {
 			var $biosContainer = $('#js-whoweare-container'),
