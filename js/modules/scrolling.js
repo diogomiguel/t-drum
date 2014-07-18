@@ -26,7 +26,7 @@ define(['jquery', 'skrollr'], function ($, skrollr) {
 			$clientTransition = $('#js-client-transitions-container');
 
 			
-			s = skrollr.init();
+			s = skrollr.init({forceHeight: false});
 			$clientTransition.height(winH * 3.5);
 			s.refresh($clientTransition);
 		},

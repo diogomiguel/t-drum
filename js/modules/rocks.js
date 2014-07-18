@@ -17,6 +17,7 @@ define(['jquery'], function ($) {
 		scva,
 		sh,
 		sha,
+		whatWeHeight,
 		meteor1RocksKeyframes = [];
 
 
@@ -71,8 +72,9 @@ define(['jquery'], function ($) {
 		_whatwedo: function() {
 			// Place rocks dynamically
 			var $meteor	= $('#js-whatwedo-meteor'),
-				$rocks	= $meteor.children('.whatwedo__meteor__rock'),
-				whatWeHeight = 5000;
+				$rocks	= $meteor.children('.whatwedo__meteor__rock');
+
+			whatWeHeight = 5000;
 
 
 			// Dimension amends\
@@ -324,11 +326,49 @@ define(['jquery'], function ($) {
 		},
 
 		_ourwork: function() {
+			
+
+
+			// Individual meteors in our work area (non relative values to prevent flicking)
+			var $ourworkMeteor1 = $('#js-ourwork-meteor-1'),
+				$ourworkMeteor2 = $('#js-ourwork-meteor-2'),
+				$ourworkMeteor3 = $('#js-ourwork-meteor-3'),
+				ourworkMeteor1Keyframes = {
+					start: 560,
+					end: -570
+				},
+				ourworkMeteor2Keyframes = {
+					start: 500,
+					end: -300
+				},
+				ourworkMeteor3Keyframes = {
+					start: 510,
+					end: -410
+				},
+				startOurWorkMeteors = whatWeHeight,
+				// assume up to 4 pages to save some processing and time
+				endOurWorkMeteors = startOurWorkMeteors + Math.round($('#js-ourwork-section').innerHeight() * 4);
+
+
+			// Starting point
+			$ourworkMeteor1.attr('data-' + startOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor1Keyframes.start + 'px);');
+			$ourworkMeteor2.attr('data-' + startOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor2Keyframes.start + 'px);');
+			$ourworkMeteor3.attr('data-' + startOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor3Keyframes.start + 'px);');
+
+			// End point => assume up to 4 pages to save some processing and time
+			$ourworkMeteor1.attr('data-' + endOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor1Keyframes.end * 4 + 'px);');
+			$ourworkMeteor2.attr('data-' + endOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor2Keyframes.end * 4 + 'px);');
+			$ourworkMeteor3.attr('data-' + endOurWorkMeteors, 'transform:translate(0,' + ourworkMeteor3Keyframes.end * 4 + 'px);');
+
+
+			// Meteors wrapper
 			var $meteors = $('#js-ourwork-meteors');
 
-			$meteors.attr('data-0', 'top:0px;position:!absolute;display:!block;');
-			$meteors.attr('data-bottom-top', 'transform:translate(0, -100px);position:!fixed;');
-			$meteors.attr('data-top-bottom', 'transform:translate(0,50px);display:!none;');
+			$meteors.attr('data-0', 'transform:translate(0, 100px);position:!absolute;display:!block;');
+			$meteors.attr('data-' + startOurWorkMeteors, 'transform:translate(0, 100px);position:!fixed;display:!block;');
+			
+			$meteors.attr('data-' + endOurWorkMeteors, 'transform:translate(0,' + 50 * 4 + 'px);display:!none;');
+			$meteors.attr('data-top-bottom', 'display:!none;');
 		},
 
 		_client: function() {
