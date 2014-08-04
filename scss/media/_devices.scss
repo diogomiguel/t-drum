@@ -68,6 +68,9 @@ head {font-family:"S";}
 			right: em(30px);
 			position: absolute;
 			
+			img{
+				width: 100%;
+			}
 			&:hover{
 				@include opacity(0.5);
 			}
@@ -526,7 +529,7 @@ head {font-family:"S";}
    			padding: em(82px) 0 em(172px)!important;
    			width: 100%;
 
-   			legend{
+   			h2{
    				font-size: em(46px);
    				margin-bottom: em(78px, 46px);
    			}
