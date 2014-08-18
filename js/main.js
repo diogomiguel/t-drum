@@ -10,22 +10,21 @@ require([
 	'modules/video',
 	'modules/ourwork',
 	'modules/nav',
-	'modules/mediaqueries'
+	'modules/mediaqueries',
+	'jwplayer'
 	
-], function (video, ourwork, nav, mediaqueries) {
+], function (video, ourwork, nav, mediaqueries, jwplayer) {
 	'use strict';
 
 
 	// Set JWPlayer key
-	window.jwplayer.key = "fu2u0kgoWvXIFOm4Iiq7xsU3LJRLkDIfHE8ZKQ==";
+	jwplayer.key = "fu2u0kgoWvXIFOm4Iiq7xsU3LJRLkDIfHE8ZKQ==";
 
 	// Set Current Mediaquery
 	window.currentMQ = "unknown";
 	
 	video.init();
-	ourwork.init();
 	
-	// Lazyload all images
 	
 
 	// hold ready == start only when window loaded
@@ -43,7 +42,8 @@ require([
 
 	nav.init();
 
-	
+	// Start ourwork
+	ourwork.init();
 
 	// Loading Complete = fade out loader
 	var $loadingSection = $('#js-loading-section');
@@ -52,6 +52,10 @@ require([
 		$('html').removeAttr('style');
 	});
 
+	
+
 	// SSM MANAGER INIT
 	mediaqueries.init();
+
+
 });

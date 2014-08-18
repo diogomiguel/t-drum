@@ -5,7 +5,7 @@
  * @date 2014-5-19
  */
 
-define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($, video, scrolling) {
+define(['jquery', 'modules/video', 'modules/scrolling', 'modules/ourwork', 'lazyload'], function ($, video, scrolling, ourwork) {
 
 	// Strict mode to prevent sloppy JS
 	'use strict';
@@ -17,7 +17,6 @@ define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($
 		prevKeyFrame = 0,
 		nextKeyFrame = 0,
 		sectionElems = [],
-		imagesLazyLoaded = false,
 		$mainNav,
 		$navParent,
 		$mainNavLinks;
@@ -58,6 +57,8 @@ define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($
 				
 				
 			});
+
+
 
 			
 
@@ -162,11 +163,9 @@ define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($
 					$video.pause();
 
 					// Lazyload our work image
-					if (currentSection >= 2 && !imagesLazyLoaded) {
-						$(".ourwork__grid__item__image img").lazyload({
-							effect : "fadeIn"
-						});
-						imagesLazyLoaded = true;
+					if (currentSection >= 2 && !ourwork.imagesLazyLoaded()) {
+						// Prepare work images force lazy loading
+						ourwork.prepareWorkImages();
 					}
 				} else if (curSectionData) {
 					$navParent.removeClass('mainnav--active');
@@ -206,6 +205,12 @@ define(['jquery', 'modules/video', 'modules/scrolling', 'lazyload'], function ($
 				// Close nav
 				$('#js-mainnav-mobile-btn').trigger('click');
 				scrolling.refresh();
+				e.preventDefault();
+			});
+
+			// Logo click == showreel
+			$('#js-mainnav-logo').bind('click', function(e){
+				$mainNavLinks.eq(0).click();
 				e.preventDefault();
 			});
 		}

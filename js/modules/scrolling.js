@@ -42,7 +42,7 @@ define(['jquery', 'skrollr'], function ($, skrollr) {
 
 			// Reset all elements manually
 			$('#js-homepage-section, #js-whatwedo-meteor, #js-whatwedo-section,#js-whatwedo-container, #js-whoweare-section, #js-ourwork-section').removeAttr('style');
-			$('#js-ourwork-meteors, #js-whoweare-meteor-1, #js-whoweare-container, #js-client-wrapper, #js-client-section, #js-video, #js-client-transitions-container').removeAttr('style');
+			$('#js-ourwork-meteors, #js-whoweare-meteor-1, #js-whoweare-container, #js-whatwedo-bg, #js-client-wrapper, #js-client-section, #js-video, #js-client-transitions-container').removeAttr('style');
 			
 
 			console.log("Scrollr destroy");

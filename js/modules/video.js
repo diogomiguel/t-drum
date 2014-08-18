@@ -28,22 +28,26 @@ define(['jquery'], function ($) {
 			$audiobtn.on('click', this.toggleAudio);
 			$audiobtn.click();
 
-			// Make Home area 100% toggleAudio accomodate full size video
-			var $homeSection = $('#js-homepage-section'),
-				$win         = $(window);
 
-			$win.resize(function(){
-				var winHeight = $win.height();
+			
+			//$video.fitVids();
+			
+			
+		},
 
-				$homeSection.css('min-height', winHeight);
+		setMobileVideoAttributes: function() {
+			var that = this;
+
+			if (typeof $video !== "object") {
+				// Redefining $video
+				$video = document.getElementById('js-video');
+
+			}
+
+			$video.setAttribute('poster', 'dist/img/video-mobile-poster.png');
+			$video.addEventListener('click', function(){
+				that.togglePlay();
 			});
-
-			$win.resize();
-
-			
-			
-			
-			
 		},
 
 		togglePlay: function() {
@@ -73,15 +77,29 @@ define(['jquery'], function ($) {
 			$video.style.visibility = 'visible';
 		},
 
-		setMobileVideoDimensions: function() {
-			console.log(this.isTouchDevice);
-			if (window.isTouchDevice()) {
-				$('#js-video').css('height', Math.round($(window).width() * 0.5625));
-			}
+
+		setVideoContainerMinHeight: function() {
+			var $homeSection = $('#js-homepage-section'),
+				$win         = $(window);
+
+			var winHeight = $win.height();
+
+			$homeSection.css('min-height', winHeight);
+
+			// Remove mobile configurations
+			$($video).attr('style', '');
 		},
 
-		setDesktopVideoDimensions: function() {
-			$('#js-video').css('height', 'auto');
+		setMobileVideoHeight: function() {
+			// Because mobile is rubbish addressing this
+
+			var $win = $(window),
+				winWidth = $win.width(),
+				newHeight = Math.round(winWidth * 0.5625);
+
+			$($video).width(winWidth);
+			$($video).height(newHeight);
+
 		}
 
 		

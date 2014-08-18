@@ -14,7 +14,18 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 
 	var documentHeight = 0,
 		$doc = $(document),
-		initScrolling = false;
+		initScrolling = false,
+
+		refreshParallax = function() {
+			// Because is executed with timeout
+			if (window.currentMQ !== 'XS' && window.currentMQ !== 'S') {
+				rocks.refresh();
+				scrolling.refresh();
+
+				console.log('Refresh Parallaxing');
+			}
+			
+		};
 
 	// Public API
 	return {
@@ -22,8 +33,7 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 		init: function() {
 			documentHeight = $doc.height();
 
-			var that = this,
-				checkNavSections = function() {
+			var checkNavSections = function() {
 					
 					
 					if (documentHeight !== $doc.height()) {
@@ -35,22 +45,23 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 					}
 				},
 				touchOnEnter = function() {
-					video.setMobileVideoDimensions();
 			        setTimeout(function(){
 						ourwork.rearrangeGrid(1000);
 						checkNavSections();
 					}, 500);
 					ourwork.playVideos();
 
-					// Destroy scrolling on enter
+					// Destroy scrolling on enter and on timeout
 					scrolling.destroy();
+
+					
+					video.setMobileVideoHeight();
+					video.setMobileVideoAttributes();
 
 					
 				},
 				touchOnResize = function() {
 					
-					// On resize set new height for the main video
-					video.setMobileVideoDimensions();
 
 					// On resize re-arrange the our works grid
 					setTimeout(function(){
@@ -58,7 +69,7 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 						checkNavSections();
 					}, 500);
 
-					
+					video.setMobileVideoHeight();
 				},
 				desktopOnEnter = function() {
 
@@ -72,11 +83,16 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 
 					ourwork.playVideos();
 
-					
+					// If images are loaded we need to re-center them
+					if (ourwork.imagesLazyLoaded()) {
+						ourwork.prepareWorkImages();
+					}
+					video.setVideoContainerMinHeight();
 				},
 				desktopOnResize = function() {
 					// Every resize refreshes the parallax
-					that.refreshParallax();
+					refreshParallax();
+					video.setVideoContainerMinHeight();
 				};
 
 
@@ -147,7 +163,7 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 						ourwork.rearrangeGrid(236);
 
 						// Every resize refreshes the parallax
-						that.refreshParallax();
+						refreshParallax();
 
 						// Re-check navigation
 						checkNavSections();
@@ -155,8 +171,6 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 
 					// Scrolling is destroyed for onTouch. When moving to desktop reinstante
 					scrolling.reinstate();
-					// Video is restored to what it should be
-					video.setDesktopVideoDimensions();
 
 					desktopOnEnter();
 					
@@ -178,7 +192,7 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 						ourwork.rearrangeGrid(282);
 
 						// Every resize refreshes the parallax
-						that.refreshParallax();
+						refreshParallax();
 
 						// Re-check navigation
 						checkNavSections();
@@ -195,15 +209,9 @@ define(['jquery', 'modules/ourwork', 'modules/nav', 'modules/scrolling', 'module
 
 			ssm.ready();
 
+			ourwork.setupMasonry();
 
 			
-		},
-
-		refreshParallax: function() {
-			rocks.refresh();
-			scrolling.refresh();
-
-			console.log('Refresh Parallaxing');
 		}
 	};
 

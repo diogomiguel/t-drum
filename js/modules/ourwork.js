@@ -11,34 +11,201 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 	'use strict';
 
 	// Private
-	var jsonFile	= 'data/ourwork.json',
-		totalPages,
+	var jsonFile	= 'data/_ourwork.php',
 		curPage		= 2,
 		$grid,
-		gridOptions = {
-			itemSelector: '.ourwork__grid__item',
-			layoutMode: 'masonry',
-			resizable: false,
-			animationEngine: "best-available",
-			masonry: {
-				columnWidth: 282,
-				gutterWidth: 12
-			}
+		gridOptions = {},
+		activeMobileVideo,
+		imagesLazyLoaded = false,
+
+		debounce = function(fn, threshold) {
+			// debounce so filtering doesn't happen every millisecond
+			var timeout;
+			return function debounced() {
+				if ( timeout ) {
+					clearTimeout( timeout );
+				}
+				function delayed() {
+					fn();
+					timeout = null;
+				}
+				setTimeout( delayed, threshold || 100 );
+			};
 		},
-		activeMobileVideo;
+		appendWorkItems = function() {
+			var workHTML	= '',
+				that		= this,
+				nextPage	= curPage + 1;
+
+			// Load Works JSON
+			$.getJSON(jsonFile + '?page=' + curPage, function(data) {
+				var n = 0;
+				$.each(data, function(key, values){
+					console.log(key + " " + values);
+
+					/* jshint ignore:start */
+
+					// if 0 get nextPage
+					if (n === 0) {
+						nextPage = values['next_page_number'] ? parseInt(values['next_page_number']) : null;
+
+					}
+
+					if (!values['video_path']) {
+						return;
+					}
+
+				
+					var gridClass		= values['_vclass'],
+						gridCategory	= '';
+						
+
+						// Get category class values
+						if (values['video_advert']) {
+							gridCategory += ' ' + values['video_advert'];
+						}
+
+						if (values['video_film']) {
+							gridCategory += ' ' + values['video_film'];
+						}
+
+						if (values['video_showreel']) {
+							gridCategory += ' ' + values['video_showreel'];
+						}
+
+						if (values['video_other']) {
+							gridCategory += ' ' + values['video_other'];
+						}
+
+
+					// Generate new items elements using JSON Data
+					workHTML += '<div class="ourwork__grid__item ourwork__grid__append ' + gridClass + '' + gridCategory + '" id="js-ourwork-grid-item-' + (values._id) + '">' +
+							'	<figure>' +
+							'		<div class="ourwork__grid__item__image">' +
+							'			<img src="' + values['image'] + '" alt="' + values['title'] + '" />' +
+							'		</div>' +
+							'		<figcaption class="ourwork__grid__item__rollover">' +
+							'			<div>' +
+							'				<h3>' + values['title'] + '</h3>' +
+											values['video_caption'] +
+							'				<a href="/dist/videos/' + values['video_path'] + '" class="ourwork__grid__item__play">Play</a>' +
+							'			</div>' +
+							'		</figcaption>' +
+							'	</figure>' +
+							'</div>';
+					
+
+					// Empty gap 4 index
+					if (n === 3) {
+						console.log(n);
+						workHTML += '<div class="ourwork__grid__item ourwork__grid__append ourwork__grid__item--portrait"></div>';
+					}
+					/* jshint ignore:end */
+					n++;
+
+
+					
+				});
+
+				// Inject HTML into container
+				var $elems = $(workHTML);
+
+				$grid.append($elems).isotope('appended', $elems);
+
+				// Center loaded images
+				$grid.find('.ourwork__grid__append img').load(function() {
+					
+					var $this = $(this);
+
+					if ($this.attr('src').indexOf('blank') === -1) {
+						that.centerWorkImage($this);
+					}
+			
+				});
+
+				// Remove Appended animation class
+				setTimeout(function() {
+					$elems.removeClass('ourwork__grid__append');
+					scrolling.refresh();
+				}, 1000);
+				
+				// Pagination checker -- if total loaded hide button and kill the handler
+				if (!nextPage) {
+					console.log('Hide Button');
+					$('#js-ourwork-loadmore').addClass('hidden');
+					$('#js-ourwork-loadmore').off('click');
+				} else {
+					curPage++;
+				}
+
+				// Bind Play video btn handler
+				that.playVideos();
+
+				// Reinstate Load more
+				$('#js-ourwork-loadmore').children('span').html("Load More +").removeClass('ourwork__loadmore__loading');
+
+				// Refresh dimensions
+				//scrolling.refresh();
+			});
+		},
+		// Only called on lazy load complete (nav.js)
+		centerWorkImage = function($img) {
+			// Absolutely center the image in our work
+			
+			var $parent = $img.parents('.ourwork__grid__item');
+
+			if (window.currentMQ === "L" || window.currentMQ === "M") {
+				var parentWidth = $parent.width(),
+					parentHeight = $parent.height(),
+					imgWidth = $img.width(),
+					imgHeight = $img.height();
+
+					// Align center
+					if (imgWidth > parentWidth) {
+						var newLeft = parentWidth / 2 - imgWidth / 2;
+
+						$img.css('left', Math.round(newLeft));
+					}
+
+					// Align top
+					if (imgHeight > parentHeight) {
+						var newTop = parentHeight / 2 - imgHeight / 2;
+
+						$img.css('top', Math.round(newTop));
+					}
+
+			}
+		};
 
 	// Public API
 	return {
 		init: function() {
-			var qsRegex,
-				// Masonry Our Work grid
-				$ourworkFilter = $('#js-ourwork-filters'),
+			
+
+			$grid = $('#js-ourwork-grid');
+
+			// Default options
+			gridOptions = {
+				itemSelector: '.ourwork__grid__item',
+				layoutMode: 'masonry',
+				resizable: false,
+				animationEngine: "best-available",
+				masonry: {
+					columnWidth: 282,
+					gutterWidth: 12
+				}
+			};
+
+		},
+
+		setupMasonry: function() {
+			// Not on init. Mediaqueries need to run first
+			// Masonry Our Work grid
+			var	$ourworkFilter = $('#js-ourwork-filters'),
 				$searchInput = $('#js__ourwork__search__input'),
+				qsRegex,
 				that = this;
-
-			// Set cur width accordingly to active media query
-			//window.mqSync();
-
+				
 			if (window.currentMQ === "L") {
 				gridOptions.masonry.columnWidth = 282;
 			} else if (window.currentMQ === "M") {
@@ -47,7 +214,9 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 				gridOptions.masonry.columnWidth = 1000;
 			}
 
-			$grid = $('#js-ourwork-grid').isotope(gridOptions);
+			$grid.imagesLoaded(function(){
+				$grid.isotope(gridOptions);
+			});
 
 
 			// Isotope js-ourwork-filters
@@ -73,7 +242,7 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 			});
 
 			// Isotope quick search
-			var $quicksearch = $searchInput.keyup(this._debounce(function(){
+			var $quicksearch = $searchInput.keyup(debounce(function(){
 					// Clear other filters
 					$ourworkFilter.find('a').removeClass('active');
 					$ourworkFilter.find('a').eq(0).addClass('active');
@@ -114,99 +283,21 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 			// Append more on click load more
 			var $loadMore = $('#js-ourwork-loadmore');
 
-			// get total number of possible loads
-			totalPages = $loadMore.attr('data-pages');
 
-			$loadMore.on('click', function() {
+			$loadMore.on('click', function(e) {
 				// Swap for loading ajax
-				$loadMore.children('span').html('<img src="dist/img/ourwork-loader.gif" alt="Loading" />');
-				that.appendWorkItems.call(that);
+				$loadMore.children('span')
+				.html('<img src="dist/img/ourwork-loader.gif" alt="Loading" />')
+				.addClass('ourwork__loadmore__loading');
+				appendWorkItems.call(that);
+				e.preventDefault();
 			});
 
 			// Bind Play video btn handler
 			this.playVideos();
-
 		},
 
-		appendWorkItems: function() {
-			var workHTML	= '',
-				$this		= $(this),
-				that		= this;
-
-			// Load Works with JSON
-			$.getJSON(jsonFile, function(data) {
-
-				$.each( data, function( key, values ) {
-					var gridClass		= 'ourwork__grid__item--',
-						gridCategory	= '';
-
-					switch (values.grid) {
-						case 1:
-							gridClass += 'slandscape';
-							break;
-						case 2:
-							gridClass += 'blandscape';
-							break;
-						case 3:
-							gridClass += 'portrait';
-							break;
-					}
-
-					if (values.category) {
-						gridCategory = ' ' + values.category;
-
-						// Generate new items elements using JSON Data
-						workHTML += '<div class="ourwork__grid__item ourwork__grid__append ' + gridClass + '' + gridCategory + '" id="js-ourwork-grid-item-' + (key + 10) + '">' +
-								'	<figure>' +
-								'		<div class="ourwork__grid__item__image">' +
-								'			<img src="dist/img/our-work/' + values.thumbnail + '" alt="' + values.title + '" />' +
-								'			<img src="dist/img/our-work/' + values.mobileThumbnail + '" alt="' + values.title + '" class="ourwork__grid__item__image__mobile" />' +
-								'		</div>' +
-								'		<figcaption class="ourwork__grid__item__rollover">' +
-								'			<div>' +
-								'				<h3>' + values.title + '</h3>' +
-								'				<p>' + values.caption + '</p>' +
-								'				<a href="dist/videos/' + values.video + '" class="ourwork__grid__item__play">Play</a>' +
-								'			</div>' +
-								'		</figcaption>' +
-								'	</figure>' +
-								'</div>';
-					} else {
-						// Empty Gaps
-						workHTML += '<div class="ourwork__grid__item ' + gridClass + '' + gridCategory + '"></div>';
-					}
-
-					
-				});
-
-				// Inject HTML into container
-				var $elems = $(workHTML);
-
-				$grid.append($elems).isotope('appended', $elems);
-
-				// Remove Appended animation class
-				setTimeout(function() {
-					$elems.removeClass('ourwork__grid__append');
-					scrolling.refresh();
-				}, 1000);
-				
-				// Pagination checker -- if total loaded hide button and kill the handler
-				curPage++;
-				if (curPage === totalPages) {
-					$this.addClass('hidden');
-					$this.off('click');
-				}
-
-				// Bind Play video btn handler
-				that.playVideos();
-
-				// Reinstate Load more
-				$('#js-ourwork-loadmore').children('span').html("Load More +");
-
-				// Refresh dimensions
-				//scrolling.refresh();
-			});
-		},
+		
 
 		playVideos: function() {
 
@@ -312,74 +403,67 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 				// Small Devices
 				$gridItemsMobile.bind('click', function(){
 
+
 					// Very slow logic --  Improve
-
-					
-
-
 					var $this = $(this),
 						$thisParent = $this.parents('.ourwork__grid__item'),
-						mobileImg = $this.children('.ourwork__grid__item__image__mobile').attr('src');
+						mobileImg = $this.children('.ourwork__grid__item__image__mobile').attr('src'),
+						videoPath = $thisParent.find('.ourwork__grid__item__play').attr('href');
 
-					if (!$this.hasClass('ourwork__grid__item__image--playing')) {
-
+					// If touch Device open in new window
+					if (window.isTouchDevice()) {
+						window.location.href = videoPath;
+					} else {
 						
-						console.log('Play Video');
-						//that.destroyMobileVideoInstances();
-
-						var $videoLayer = $('<div class="ourwork__videolayer--mobile" id="ourwork-videolayer-mobile-' + n + '"><div id="ourwork-videolayer-mobile-player-' + n + '"></div></div>'),
-							videoPath = $thisParent.find('.ourwork__grid__item__play').attr('href');
-
-						console.log(videoPath);
-
-						$this.append($videoLayer);
-
 						
-						// Check if any active player and stop
-						if (activeMobileVideo) {
-							window.jwplayer(activeMobileVideo).stop();
+
+						if (!$this.hasClass('ourwork__grid__item__image--playing')) {
+
+							
+							console.log('Play Video');
+
+							var $videoLayer = $('<div class="ourwork__videolayer--mobile" id="ourwork-videolayer-mobile-' + n + '"><div id="ourwork-videolayer-mobile-player-' + n + '"></div></div>');
+								
+
+							console.log(videoPath);
+
+							$this.append($videoLayer);
+
+							
+							// Check if any active player and stop
+							if (activeMobileVideo) {
+								window.jwplayer(activeMobileVideo).stop();
+							}
+
+
+							window.jwplayer('ourwork-videolayer-mobile-player-' + n).setup({
+								file: videoPath,
+								width: '100%',
+								height: '100%',
+								autostart: true,
+								'logo.hide': true,
+								logo: {
+									hide: true
+								},
+								image: mobileImg,
+								flashplayer: 'dist/videos/jwplayer.flash.swf',
+								"controls": {
+									"hideLogo": true
+								},
+								controlbar: "over"
+							});
+
+
+							// Set active video
+							activeMobileVideo = 'ourwork-videolayer-mobile-player-' + n;
+
+							// Set as playing
+							$this.addClass('ourwork__grid__item__image--playing');
 						}
-
-
-						window.jwplayer('ourwork-videolayer-mobile-player-' + n).setup({
-							file: videoPath,
-							width: '100%',
-							height: '100%',
-							autostart: true,
-							'logo.hide': true,
-							logo: {
-								hide: true
-							},
-							image: mobileImg,
-							flashplayer: 'dist/videos/jwplayer.flash.swf',
-							"controls": {
-								"hideLogo": true
-							},
-							controlbar: "over"
-						});
-
-
-						// Set active video
-						activeMobileVideo = 'ourwork-videolayer-mobile-player-' + n;
-						
-
-						/* DITCH HTML5 because of poster is buggy
-						var $videoPlayer = $('#ourwork-videolayer-mobile-player-' + n),
-							videoHTML = '<video class="ourwork__mobilevideo" poster="dist/img/blank.png" style="background-image:url(' + mobileImg + ');" height="auto" width="100%" id="ourwork-videolayer-mobile-player-video-' + n + '">' +
-										'<source url="' + videoPath + '" type="video/mp4" />' +
-										'</video>';
-
-						$videoPlayer.html(videoHTML);
-
-						var $mobileVideo = $('#ourwork-videolayer-mobile-player-video-' + n);
-						$mobileVideo.attr('src', videoPath);
-						$mobileVideo[0].load();
-						*/
-
-						// Set as playing
-						$this.addClass('ourwork__grid__item__image--playing');
+						n ++;
 					}
-					n ++;
+
+					
 				});
 				this.gridReload("");
 			}
@@ -421,19 +505,35 @@ define(['jquery', 'modules/scrolling', 'isotope', 'imagesLoaded'], function ($, 
 			});
 		},
 
-		_debounce: function(fn, threshold) {
-			// debounce so filtering doesn't happen every millisecond
-			var timeout;
-			return function debounced() {
-				if ( timeout ) {
-					clearTimeout( timeout );
+		// Align and lazyload images if needed
+		prepareWorkImages: function() {
+			var $images = $(".ourwork__grid__item__image img");
+
+			// Lazyload images
+			console.log('Lazy Loading Images');
+
+			$images.lazyload({
+				effect : "fadeIn"
+			});
+			
+
+			// Center one by one as they load
+			$images.load(function() {
+				// Center loaded image
+				var $this = $(this);
+
+				if ($this.attr('src').indexOf('blank') === -1) {
+					centerWorkImage($this);
 				}
-				function delayed() {
-					fn();
-					timeout = null;
-				}
-				setTimeout( delayed, threshold || 100 );
-			};
+				
+			});
+			imagesLazyLoaded = true;
+			
+			
+		},
+		// return var value
+		imagesLazyLoaded: function() {
+			return imagesLazyLoaded;
 		}
 	};
 
